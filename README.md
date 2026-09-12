@@ -51,11 +51,11 @@ Repository นี้ประกอบด้วยเอกสาร HTML สำ
 ```text
 .
 ├── index.html
-├── index_chapter1_latex_fixed.html
-├── index_chapter2.html
-├── index_chapter3_with_framework_figures.html
-├── index_chapter4_with_results_figures.html
-├── index_chapter5.html
+├── chapter1.html
+├── chapter2.html
+├── chapter3.html
+├── chapter4.html
+├── chapter5.html
 └── README.md
 ```
 
@@ -63,11 +63,11 @@ Repository นี้ประกอบด้วยเอกสาร HTML สำ
 
 | บท | เนื้อหา | ไฟล์ |
 |---|---|---|
-| บทที่ 1 | บทนำ ปัญหาวิจัย คำถามวิจัย วัตถุประสงค์ สมมติฐาน ขอบเขต และ Contribution | `index_chapter1_latex_fixed.html` |
-| บทที่ 2 | เอกสารและงานวิจัยที่เกี่ยวข้อง ช่องว่างการวิจัย และตารางเปรียบเทียบงานเดิม | `index_chapter2.html` |
-| บทที่ 3 | วิธีดำเนินการวิจัย DOE, AI modeling, inverse design, uncertainty และ closed-loop | `index_chapter3_with_framework_figures.html` |
-| บทที่ 4 | ผลการวิจัย การวิเคราะห์ และอภิปรายผล พร้อม Figure 4.1–4.4 | `index_chapter4_with_results_figures.html` |
-| บทที่ 5 | สรุปผล ข้อจำกัด Contribution งานในอนาคต และข้อเสนอแนะ | `index_chapter5.html` |
+| บทที่ 1 | บทนำ ปัญหาวิจัย คำถามวิจัย วัตถุประสงค์ สมมติฐาน ขอบเขต และ Contribution | `chapter1.html` |
+| บทที่ 2 | เอกสารและงานวิจัยที่เกี่ยวข้อง ช่องว่างการวิจัย และตารางเปรียบเทียบงานเดิม | `chapter2.html` |
+| บทที่ 3 | วิธีดำเนินการวิจัย DOE, AI modeling, inverse design, uncertainty และ closed-loop | `chapter3.html` |
+| บทที่ 4 | ผลการวิจัย การวิเคราะห์ และอภิปรายผล พร้อม Figure 4.1–4.4 | `chapter4.html` |
+| บทที่ 5 | สรุปผล ข้อจำกัด Contribution งานในอนาคต และข้อเสนอแนะ | `chapter5.html` |
 
 ---
 
@@ -122,6 +122,24 @@ Repository นี้ประกอบด้วยเอกสาร HTML สำ
 
 ---
 
+
+## ลิงก์เอกสารใน Repository
+
+เมื่อเปิดผ่าน GitHub Pages ให้ใช้โครงสร้าง URL ดังนี้
+
+```text
+https://project2you.github.io/research/
+https://project2you.github.io/research/chapter1.html
+https://project2you.github.io/research/chapter2.html
+https://project2you.github.io/research/chapter3.html
+https://project2you.github.io/research/chapter4.html
+https://project2you.github.io/research/chapter5.html
+```
+
+ไฟล์ `index.html` ทำหน้าที่เป็นสารบัญหลัก และลิงก์ไปยัง `chapter1.html` ถึง `chapter5.html` โดยใช้ relative paths จึงควรวางไฟล์ทั้งหมดไว้ใน repository root เดียวกัน
+
+---
+
 ## การเปิดใช้งานแบบ Local
 
 สามารถเปิดไฟล์ `index.html` ด้วยเว็บเบราว์เซอร์ได้โดยตรง
@@ -163,11 +181,11 @@ index.html
 ```text
 research/
 ├── index.html
-├── index_chapter1_latex_fixed.html
-├── index_chapter2.html
-├── index_chapter3_with_framework_figures.html
-├── index_chapter4_with_results_figures.html
-├── index_chapter5.html
+├── chapter1.html
+├── chapter2.html
+├── chapter3.html
+├── chapter4.html
+├── chapter5.html
 └── README.md
 ```
 
