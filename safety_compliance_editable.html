@@ -1,0 +1,1174 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แบบตรวจสอบการปฏิบัติตามกฎหมายความปลอดภัย พ.ศ. 2565</title>
+<style>
+:root {
+  --bg:#f4f7fb; --panel:#ffffff; --ink:#172033; --muted:#667085;
+  --nav:#0f2742; --nav2:#17395d; --accent:#1677ff; --ok:#118a5b;
+  --bad:#d64545; --warn:#b7791f; --line:#dce3ed; --soft:#eef4fb;
+  --shadow:0 14px 34px rgba(16,36,68,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,Arial,sans-serif;line-height:1.55}
+button,input,textarea{font:inherit}
+.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(135deg,var(--nav),var(--nav2));color:white;box-shadow:0 4px 18px rgba(0,0,0,.14)}
+.topbar-inner{max-width:1550px;margin:auto;padding:14px 22px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:22px}
+.brand strong{display:block;font-size:16px} .brand small{opacity:.8}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:white;border-radius:10px;padding:9px 12px;cursor:pointer}
+.btn:hover{background:rgba(255,255,255,.18)}
+.btn.light{background:white;color:var(--nav);border-color:white;font-weight:700}
+.layout{max-width:1550px;margin:0 auto;display:grid;grid-template-columns:245px minmax(0,1fr);gap:22px;padding:22px}
+.sidebar{position:sticky;top:88px;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.sidebar a{display:block;text-decoration:none;color:#344054;padding:10px 11px;border-radius:10px;margin:2px 0}
+.sidebar a:hover{background:var(--soft);color:var(--accent)} .sidebar .section-label{font-size:12px;color:var(--muted);padding:10px 10px 4px;font-weight:700}
+.main{min-width:0}
+.hero{background:linear-gradient(135deg,#fff 0%,#f7fbff 100%);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow);margin-bottom:18px}
+.hero h1{font-size:clamp(22px,3vw,34px);margin:0 0 8px;line-height:1.25} .hero p{margin:0;color:var(--muted)}
+.edit-hint{margin-top:14px;padding:10px 12px;border-radius:10px;background:#fff8e6;color:#7a5412;border:1px solid #f1dfad;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 5px 16px rgba(16,36,68,.06)}
+.stat b{font-size:26px;display:block} .stat span{font-size:13px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px}
+.card-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-head h2{margin:0;font-size:19px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.search{min-width:260px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:white}
+.filter-btn{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 11px;cursor:pointer;color:#344054}
+.filter-btn.active{background:var(--nav);color:white;border-color:var(--nav)}
+.table-wrap{overflow:auto;max-height:72vh}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px}
+th,td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top;padding:11px}
+th{position:sticky;top:0;z-index:4;background:#eaf2fb;color:#17395d;text-align:center;font-size:13px}
+th:first-child,td:first-child{border-left:0} tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#fbfdff}
+.seq{width:58px;text-align:center;font-weight:800;color:#17395d;background:#f8fbff}
+.editable{min-width:170px;outline:none;transition:.15s} .law-cell{min-width:290px} .check-cell{min-width:250px}
+.editable:focus{background:#fffbe8!important;box-shadow:inset 0 0 0 2px #f1c84c}
+.status-cell{width:142px}
+.status{display:flex;align-items:center;gap:7px;margin:4px 0;padding:5px 7px;border-radius:8px;cursor:pointer}
+.status input{accent-color:var(--accent)} .status.yes:has(input:checked){background:#e9f8f1;color:#08724a}
+.status.no:has(input:checked){background:#fff0f0;color:#b42318} .status.na:has(input:checked){background:#f1f3f5;color:#475467}
+.evidence{width:100%;min-width:260px;min-height:96px;border:1px solid #cfd7e3;border-radius:10px;padding:9px;resize:vertical;background:#fcfdff}
+.evidence:focus{outline:2px solid #b9d7ff;border-color:#7cb2f5;background:white}
+.legend{font-size:13px;color:var(--muted);padding:10px 18px;background:#fafcff;border-top:1px solid var(--line)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:18px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700}
+.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fff}
+.field.full{grid-column:1/-1}
+.cert{padding:0 18px 18px;color:#344054} .cert-box{background:#f8fbff;border:1px dashed #b9cbe0;padding:14px;border-radius:12px}
+.footer{text-align:center;color:var(--muted);font-size:13px;padding:12px 0 30px}
+.toast{position:fixed;right:20px;bottom:20px;background:#172033;color:white;padding:11px 14px;border-radius:10px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s;z-index:100}
+.toast.show{opacity:1;transform:none}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto;gap:4px}.sidebar .section-label{display:none}.sidebar a{white-space:nowrap}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.layout{padding:12px}.stats{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+@media print{
+  body{background:white;font-size:10pt} .topbar,.sidebar,.toolbar,.edit-hint,.toast,.legend{display:none!important}
+  .layout{display:block;max-width:none;padding:0} .hero,.card{box-shadow:none;border:0;border-radius:0}
+  .stats{display:none} .table-wrap{overflow:visible;max-height:none} table{min-width:0;width:100%;font-size:8pt}
+  th{position:static;background:#e9edf2!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .evidence{border:0;min-width:0;min-height:45px;padding:0} .status{padding:1px;margin:1px 0}
+  @page{size:A4 landscape;margin:9mm}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><div class="brand-mark">✓</div><div><strong>ระบบเอกสารตรวจสอบการปฏิบัติตามกฎหมาย</strong><small>แก้ไขได้ • บันทึกอัตโนมัติในเครื่อง</small></div></div>
+    <div class="actions">
+      <button class="btn" onclick="exportJSON()">ส่งออก JSON</button>
+      <button class="btn" onclick="document.getElementById('importFile').click()">นำเข้า JSON</button>
+      <input id="importFile" type="file" accept=".json" hidden onchange="importJSON(event)">
+      <button class="btn" onclick="downloadHTML()">ดาวน์โหลด HTML ที่แก้ไขแล้ว</button>
+      <button class="btn" onclick="window.print()">พิมพ์ / PDF</button>
+      <button class="btn light" onclick="saveAll(true)">บันทึกตอนนี้</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="section-label">เมนูเอกสาร</div>
+    <a href="#overview">ภาพรวม</a>
+    <a href="#checklist">ตารางตรวจสอบ</a>
+    <a href="#annex">บัญชีท้ายกฎกระทรวง</a>
+    <a href="#signoff">การรับรอง</a>
+    <a href="#help">วิธีใช้งาน</a>
+  </nav>
+
+  <main class="main">
+    <section class="hero" id="overview">
+      <h1 contenteditable="true" data-docfield="title1">แบบตรวจสอบการดำเนินการตามข้อกำหนดของกฎหมายเกี่ยวกับ :</h1>
+      <p contenteditable="true" data-docfield="title2">กฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕ ตามมาตรา ๕ และมาตรา ๘ วรรคหนึ่ง แห่งพระราชบัญญัติความปลอดภัยฯ พ.ศ. ๒๕๕๔</p>
+      <div class="edit-hint">คลิกข้อความในหัวเรื่องหรือเซลล์ตารางเพื่อแก้ไขได้ทันที ช่องสถานะและหลักฐานจะบันทึกอัตโนมัติในเบราว์เซอร์เครื่องนี้</div>
+    </section>
+
+    <section class="stats">
+      <div class="stat"><b id="stTotal">67</b><span>รายการทั้งหมด</span></div>
+      <div class="stat"><b id="stYes">0</b><span>ใช่ / ปฏิบัติแล้ว</span></div>
+      <div class="stat"><b id="stNo">0</b><span>ไม่ใช่ / ต้องดำเนินการ</span></div>
+      <div class="stat"><b id="stDone">0%</b><span>ประเมินสถานะแล้ว</span></div>
+    </section>
+
+    <section class="card" id="checklist">
+      <div class="card-head">
+        <h2>ตารางตรวจสอบการดำเนินการ</h2>
+        <div class="toolbar">
+          <input id="searchBox" class="search" type="search" placeholder="ค้นหา ข้อกฎหมาย หัวข้อ หรือข้อความ..." oninput="applyFilter()">
+          <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">ทั้งหมด</button>
+          <button class="filter-btn" data-filter="core" onclick="setFilter('core',this)">ข้อ 1–13</button>
+          <button class="filter-btn" data-filter="annex" onclick="setFilter('annex',this)">บัญชีท้ายฯ</button>
+          <button class="filter-btn" onclick="showOnlyPending(this)">ยังไม่ได้ประเมิน</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>ลำดับ</th><th>ชื่อหมวด/หัวข้อ</th><th>ข้อกฎหมาย</th><th>รายการตรวจสอบการดำเนินการ</th><th>ผลการตรวจ</th><th>หลักฐาน/เอกสาร และข้อสำคัญ</th>
+          </tr></thead>
+          <tbody>
+            
+      <tr class="data-row" data-group="core" data-row="1">
+        <td class="seq">1</td>
+        <td class="editable" contenteditable="true" data-field="topic">การใช้บังคับ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๑ กฎกระทรวงนี้ให้ใช้บังคับเมื่อพ้นกำหนดหกสิบวันนับแต่วันประกาศในราชกิจจานุเบกษาเป็นต้นไป</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี<br>การรับทราบเรื่องกำหนดบังคับใช้กฏกระทรวง</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-1" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-1" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-1" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="2">
+        <td class="seq">2</td>
+        <td class="editable" contenteditable="true" data-field="topic">การยกเลิกกฎกระทรวงเดิม</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๒ ให้ยกเลิกกฎกระทรวงกำหนดมาตรฐานในการบริหารและการจัดการด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน (ฉบับที่ ๒) พ.ศ. ๒๕๕๓</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการใช้กฎกระทรวง พ.ศ. 2565 แทนกฎกระทรวงฉบับที่ 2 พ.ศ. 2553</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-2" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-2" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-2" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="3">
+        <td class="seq">3</td>
+        <td class="editable" contenteditable="true" data-field="topic">นิยาม</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๓ ในกฎกระทรวงนี้<br>“ระบบการจัดการด้านความปลอดภัย” หมายความว่า ระบบการจัดการที่กำหนดขึ้นเป็นส่วนหนึ่งของระบบการจัดการของสถานประกอบกิจการเพื่อนำไปปฏิบัติให้เป็นไปตามนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ซึ่งครอบคลุมการจัดการความเสี่ยงด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของสถานประกอบกิจการ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการทราบ<br>ความหมายระบบการจัดการความปลอดภัย<br>1 ความปลอดภัยเป็นส่วนหนึ่งของระบบกิจการ<br>2 ระบบความปลอดภัยที่ดำเนินนโยบาย คปภฯ ครอบคลุมถึงการจัดการความเสี่ยง</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-3" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-3" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-3" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="4">
+        <td class="seq">4</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดให้มีระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๔ นายจ้างของสถานประกอบกิจการตามที่ระบุไว้ในบัญชีท้ายกฎกระทรวงนี้ ที่มีลูกจ้างจำนวนห้าสิบคนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย ทั้งนี้ ภายในหกสิบวันนับแต่วันที่มีลูกจ้างครบจำนวนดังกล่าว</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง<br>2 ลูกจ้างตั้งแต่ 50 คนขึ้นไป<br>3 ระบบการจัดการด้านความปลอดภัยภายใน 60 วันนับแต่วันที่มีลูกจ้างครบ 50 คน</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-4" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-4" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-4" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="5">
+        <td class="seq">5</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดให้มีระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๕ ระบบการจัดการด้านความปลอดภัย อย่างน้อยต้องประกอบด้วย<br>(๑) นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน<br>(๒) การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน<br>(๓) แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน และการนำไปปฏิบัติ<br>(๔) การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย<br>(๕) การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน<br>2 การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน<br>3 แผนงานด้านความปลอดภัยฯ และการนำไปปฏิบัติ<br>4 การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย<br>5 การปรับปรุงและพัฒนาระบบการจัดการด้านความปลอดภัย</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-5" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-5" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-5" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="6">
+        <td class="seq">6</td>
+        <td class="editable" contenteditable="true" data-field="topic">องค์ประกอบของระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๖ ในการกำหนดนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) นายจ้างต้องมีหน้าที่ ดังต่อไปนี้<br>(๑) จัดให้ลูกจ้างในสถานประกอบกิจการมีส่วนร่วมกำหนดนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน และเผยแพร่ให้ลูกจ้างหรือผู้ซึ่งเกี่ยวข้องทราบอย่างทั่วถึง<br>(๒) จัดทำนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) เป็นภาษาไทยหรือจะมีภาษาอื่นที่ลูกจ้างสามารถเข้าใจด้วยก็ได้ พร้อมลงลายมือชื่อ ประทับตรารับรอง และลงวันที่ให้ถูกต้องครบถ้วน โดยจะจัดทำในรูปแบบข้อมูลอิเล็กทรอนิกส์ด้วยก็ได้<br>(๓) จัดให้มีการทบทวนนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานอย่างน้อยปีละหนึ่งครั้ง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 ลูกจ้างมีส่วนร่วมกำหนดนโยบาย และมีการเผยแพร่นโยบายให้ผู้เกี่ยวข้องทราบ<br>2 นโยบายเป็นภาษาไทยหรือภาษาที่ลูกจ้างเข้าใจ พร้อมลงลายมือชื่อ ประทับตรารับรอง และลงวันที่ครบถ้วน<br>3 การทบทวนนโยบายอย่างน้อยปีละ 1 ครั้ง</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-6" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-6" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-6" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="7">
+        <td class="seq">7</td>
+        <td class="editable" contenteditable="true" data-field="topic">องค์ประกอบของระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๗ นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) ต้องสอดคล้องกับสภาพการทำงานและกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน เพื่อบรรลุวัตถุประสงค์ ดังต่อไปนี้<br>(๑) เพื่อคุ้มครองความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้างในสถานประกอบกิจการ<br>(๒) เพื่อให้การปฏิบัติตามกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานเป็นไปอย่างมีประสิทธิภาพ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 นโยบายสอดคล้องกับสภาพการทำงานและกฎหมายด้านความปลอดภัยฯ<br>2 วัตถุประสงค์เพื่อคุ้มครองความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้าง<br>3 วัตถุประสงค์เพื่อให้การปฏิบัติตามกฎหมายด้านความปลอดภัยฯ เป็นไปอย่างมีประสิทธิภาพ</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-7" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-7" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-7" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="8">
+        <td class="seq">8</td>
+        <td class="editable" contenteditable="true" data-field="topic">องค์ประกอบของระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๘ การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๒) อย่างน้อยต้องประกอบด้วย<br>(๑) การจัดให้มีบุคลากรซึ่งมีหน้าที่และความรับผิดชอบเกี่ยวกับการดำเนินการตามระบบการจัดการด้านความปลอดภัยที่เหมาะสมกับบุคลากรแต่ละตำแหน่ง<br>(๒) การฝึกอบรมบุคลากรเกี่ยวกับการดำเนินการตามระบบการจัดการด้านความปลอดภัย เพื่อให้มีความรู้และทักษะเพียงพอ สามารถปฏิบัติงานที่รับผิดชอบได้อย่างปลอดภัย<br>(๓) การจัดทำเอกสารเกี่ยวกับระบบการจัดการด้านความปลอดภัยให้เป็นปัจจุบัน เก็บไว้ในสถานประกอบกิจการเป็นเวลาไม่น้อยกว่าสองปีนับแต่วันจัดทำ และพร้อมที่จะให้พนักงานตรวจความปลอดภัยตรวจสอบได้ โดยจะจัดทำในรูปแบบข้อมูลอิเล็กทรอนิกส์ด้วยก็ได้<br>(๔) การสื่อสารข้อมูลเกี่ยวกับระบบการจัดการด้านความปลอดภัยให้แก่ลูกจ้าง หรือผู้ซึ่งเกี่ยวข้องในสถานประกอบกิจการ และข้อมูลเกี่ยวกับอันตรายและมาตรฐานความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานให้แก่ผู้รับเหมาและผู้ซึ่งเกี่ยวข้อง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 บุคลากรรับผิดชอบระบบการจัดการด้านความปลอดภัยตามความเหมาะสมของแต่ละตำแหน่ง<br>2 การฝึกอบรมบุคลากรให้มีความรู้และทักษะเพียงพอสำหรับงานที่รับผิดชอบ<br>3 เอกสารระบบการจัดการด้านความปลอดภัยที่เป็นปัจจุบัน เก็บไว้อย่างน้อย 2 ปี และพร้อมให้พนักงานตรวจความปลอดภัยตรวจสอบ<br>4 การสื่อสารข้อมูลระบบฯ แก่ลูกจ้างหรือผู้เกี่ยวข้อง และข้อมูลอันตรายกับมาตรฐานฯ แก่ผู้รับเหมาและผู้เกี่ยวข้อง</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-8" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-8" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-8" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="9">
+        <td class="seq">9</td>
+        <td class="editable" contenteditable="true" data-field="topic">องค์ประกอบของระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๙ แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๓) อย่างน้อยต้องมีเนื้อหา ดังต่อไปนี้<br>(๑) การทบทวนสถานะเบื้องต้นเกี่ยวกับสภาพแวดล้อมที่ปรากฏอยู่ในบริเวณที่ทำงานของลูกจ้าง ซึ่งรวมถึงการระบายอากาศ สารเคมีอันตราย ความร้อน แสงสว่าง เสียง รังสี ไฟฟ้า ที่อับอากาศ เครื่องจักร อาคาร สถานที่ ตลอดจนสภาพและลักษณะการทำงานอย่างอื่นของลูกจ้าง และในกรณีที่มีการเปลี่ยนแปลงสภาพแวดล้อมจะต้องมีการทบทวนสถานะเบื้องต้นเกี่ยวกับสภาพแวดล้อม เพื่อให้ทราบถึงอันตรายหรือระดับความเสี่ยงด้วยทุกครั้ง<br>(๒) การนำผลการทบทวนสถานะเบื้องต้นมาวางแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ให้สอดคล้องกับกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ซึ่งอย่างน้อยต้องมีการกำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลาในการดำเนินการ และเกณฑ์การประเมินผล<br>(๓) การนำแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานไปปฏิบัติ<br>(๔) การประเมินผลที่ได้จากการปฏิบัติตามแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน<br>(๕) การนำผลการประเมินตาม (๔) ไปปรับปรุงแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 การทบทวนสภาพแวดล้อมและลักษณะงาน เพื่อทราบอันตรายหรือระดับความเสี่ยง และทบทวนเมื่อสภาพแวดล้อมเปลี่ยนแปลง<br>2 แผนงานที่กำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลา และเกณฑ์ประเมินผล<br>3 การนำแผนงานด้านความปลอดภัยฯ ไปปฏิบัติ<br>4 การประเมินผลจากการปฏิบัติตามแผนงาน<br>5 การนำผลประเมินไปปรับปรุงแผนงาน</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-9" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-9" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-9" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="10">
+        <td class="seq">10</td>
+        <td class="editable" contenteditable="true" data-field="topic">องค์ประกอบของระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๑๐ ในการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามข้อ ๕ (๔) อย่างน้อยต้องดำเนินการ ดังนี้<br>(๑) มีการตรวจติดตามและการวัดผลการปฏิบัติงานของระบบการจัดการด้านความปลอดภัย<br>(๒) มีการสอบสวนหาสาเหตุของการเกิดอุบัติการณ์ การเจ็บป่วย โรคจากการทำงานหรือความเสียหายต่อทรัพย์สิน เพื่อกำหนดมาตรการในการแก้ไขและปรับปรุงระบบการจัดการด้านความปลอดภัย และกำหนดมาตรการป้องกันการเกิดเหตุดังกล่าวซ้ำอีก<br>(๓) มีการทบทวนระบบการจัดการด้านความปลอดภัย โดยนำผลการดำเนินการตามระบบการจัดการด้านความปลอดภัยของสถานประกอบกิจการมาวิเคราะห์หาสาเหตุของข้อบกพร่องและแนวโน้มที่จะเกิดข้อบกพร่อง<br>นายจ้างต้องจัดให้มีการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามวรรคหนึ่ง อย่างน้อยปีละหนึ่งครั้ง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 การตรวจติดตามและวัดผลระบบการจัดการด้านความปลอดภัย<br>2 การสอบสวนอุบัติการณ์ การเจ็บป่วย โรคจากการทำงาน หรือความเสียหายต่อทรัพย์สิน และมาตรการแก้ไข ปรับปรุง และป้องกันการเกิดซ้ำ<br>3 การทบทวนระบบฯ และวิเคราะห์ข้อบกพร่องกับแนวโน้มที่จะเกิดข้อบกพร่อง<br>4 การประเมินผลและทบทวนระบบฯ อย่างน้อยปีละ 1 ครั้ง</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-10" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-10" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-10" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="11">
+        <td class="seq">11</td>
+        <td class="editable" contenteditable="true" data-field="topic">นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๑๑ การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัยตามข้อ ๕ (๕) ต้องนำผลที่ได้จากการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามข้อ ๑๐ มาปรับปรุงแก้ไขระบบการจัดการด้านความปลอดภัยด้วย<br>การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัยตามวรรคหนึ่ง ต้องมีการดำเนินการอย่างต่อเนื่อง เพื่อให้ระบบการจัดการด้านความปลอดภัยเป็นไปอย่างมีประสิทธิภาพ และบรรลุวัตถุประสงค์ด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 การนำผลประเมินและการทบทวนมาปรับปรุงระบบการจัดการด้านความปลอดภัย<br>2 การปรับปรุงและพัฒนาระบบฯ อย่างต่อเนื่อง เพื่อให้ระบบมีประสิทธิภาพและบรรลุวัตถุประสงค์ด้านความปลอดภัยฯ</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-11" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-11" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-11" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="12">
+        <td class="seq">12</td>
+        <td class="editable" contenteditable="true" data-field="topic">นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๑๒ เพื่อให้ระบบการจัดการด้านความปลอดภัยของสถานประกอบกิจการเป็นไปอย่างมีประสิทธิภาพ ให้นายจ้างของสถานประกอบกิจการต้อง<br>(๑) ควบคุมดูแลการดำเนินการตามระบบการจัดการด้านความปลอดภัย<br>(๒) เปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในการดำเนินการตามระบบการจัดการด้านความปลอดภัย<br>(๓) จัดให้ลูกจ้างสามารถเข้าถึงข้อมูลต่าง ๆ ที่เกี่ยวข้องกับระบบการจัดการด้านความปลอดภัยได้ โดยคำนึงถึงการรักษาข้อมูลส่วนบุคคล<br>(๔) จัดให้มีช่องทางในการรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียนเกี่ยวกับความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้าง เพื่อนำข้อมูลมาพิจารณาดำเนินการปรับปรุงแก้ไขระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 การควบคุมดูแลระบบการจัดการด้านความปลอดภัย<br>2 การเปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในระบบฯ<br>3 การให้ลูกจ้างเข้าถึงข้อมูลที่เกี่ยวข้องกับระบบฯ โดยคำนึงถึงข้อมูลส่วนบุคคล<br>4 ช่องทางรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียน เพื่อนำไปปรับปรุงระบบฯ</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-12" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-12" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-12" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="core" data-row="13">
+        <td class="seq">13</td>
+        <td class="editable" contenteditable="true" data-field="topic">นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">ข้อ ๑๓ ในกรณีที่นายจ้างได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามมาตรฐานผลิตภัณฑ์อุตสาหกรรม มาตรฐานขององค์การมาตรฐานสากล (International Standardization for Organization : ISO) มาตรฐานขององค์การแรงงานระหว่างประเทศ (International Labour Organization : ILO) มาตรฐานของสถาบันมาตรฐานสหราชอาณาจักร (British Standards Institution : BSI) มาตรฐานของสำนักงานบริหารความปลอดภัยและอาชีวอนามัยแห่งชาติ (Occupational Safety and Health Administration : OSHA) มาตรฐานของสถาบันมาตรฐานแห่งชาติประเทศสหรัฐอเมริกา (American National Standards Institute : ANSI) มาตรฐานของประเทศออสเตรเลียและประเทศนิวซีแลนด์ (Australia Standards /New Zealand Standards : AS/NZS) มาตรฐานของสมาพันธ์การกำหนดมาตรฐานของประเทศแคนาดา (Canadian Standards Association : CSA) หรือมาตรฐานอื่นที่เทียบเท่าตามที่อธิบดีประกาศกำหนด ให้ถือว่าได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงนี้แล้ว</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี…<br><br>1 ระบบการจัดการด้านความปลอดภัยตามมาตรฐานที่กฎหมายยอมรับ<br>2 เอกสารหรือหลักฐานของมาตรฐานที่ใช้ และเป็นมาตรฐานที่เทียบเท่าตามที่อธิบดีประกาศกำหนด หากเป็นมาตรฐานอื่น<br>3 ระบบที่ถือว่าเป็นการจัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงนี้แล้ว เมื่อเข้าเงื่อนไขตามกฎหมาย</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-13" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-13" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-13" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="14">
+        <td class="seq">14</td>
+        <td class="editable" contenteditable="true" data-field="topic">วัตถุประสงค์ของนโยบาย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑. อุตสาหกรรมเกี่ยวกับการทำเหมืองตามกฎหมายว่าด้วยแร่</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-14" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-14" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-14" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="15">
+        <td class="seq">15</td>
+        <td class="editable" contenteditable="true" data-field="topic">วัตถุประสงค์ของนโยบาย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒. อุตสาหกรรมเกี่ยวกับกิจการปิโตรเลียมตามกฎหมายว่าด้วยปิโตรเลียม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-15" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-15" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-15" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="16">
+        <td class="seq">16</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓. อุตสาหกรรมเกี่ยวกับปิโตรเคมี</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-16" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-16" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-16" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="17">
+        <td class="seq">17</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔. อุตสาหกรรมเกี่ยวกับการกลั่นน้ำมันปิโตรเลียม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-17" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-17" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-17" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="18">
+        <td class="seq">18</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕. อุตสาหกรรมเกี่ยวกับการแยกก๊าซธรรมชาติ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-18" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-18" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-18" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="19">
+        <td class="seq">19</td>
+        <td class="editable" contenteditable="true" data-field="topic">การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๖. อุตสาหกรรมสิ่งพิมพ์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๖</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-19" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-19" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-19" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="20">
+        <td class="seq">20</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๗. อุตสาหกรรมผลิตภัณฑ์อาหาร</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๗</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-20" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-20" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-20" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="21">
+        <td class="seq">21</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๘. อุตสาหกรรมเครื่องดื่ม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๘</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-21" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-21" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-21" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="22">
+        <td class="seq">22</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๙. อุตสาหกรรมผลิตภัณฑ์จากยาสูบ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๙</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-22" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-22" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-22" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="23">
+        <td class="seq">23</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๐. อุตสาหกรรมสิ่งทอ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๐</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-23" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-23" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-23" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="24">
+        <td class="seq">24</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๑. อุตสาหกรรมเสื้อผ้าหรือเครื่องแต่งกาย</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-24" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-24" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-24" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="25">
+        <td class="seq">25</td>
+        <td class="editable" contenteditable="true" data-field="topic">แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๒. อุตสาหกรรมเครื่องหนัง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-25" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-25" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-25" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="26">
+        <td class="seq">26</td>
+        <td class="editable" contenteditable="true" data-field="topic">การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๓. อุตสาหกรรมผลิตภัณฑ์จากไม้</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-26" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-26" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-26" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="27">
+        <td class="seq">27</td>
+        <td class="editable" contenteditable="true" data-field="topic">การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๔. อุตสาหกรรมกระดาษหรือผลิตภัณฑ์ที่แปรรูปจากกระดาษ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-27" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-27" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-27" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="28">
+        <td class="seq">28</td>
+        <td class="editable" contenteditable="true" data-field="topic">การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๕. อุตสาหกรรมการผลิตสารเคมีหรือเคมีภัณฑ์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๕</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-28" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-28" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-28" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="29">
+        <td class="seq">29</td>
+        <td class="editable" contenteditable="true" data-field="topic">การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๖. อุตสาหกรรมเภสัชภัณฑ์หรือเวชภัณฑ์ทางการแพทย์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๖</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-29" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-29" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-29" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="30">
+        <td class="seq">30</td>
+        <td class="editable" contenteditable="true" data-field="topic">การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๗. อุตสาหกรรมผลิตภัณฑ์ยาง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๗</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-30" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-30" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-30" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="31">
+        <td class="seq">31</td>
+        <td class="editable" contenteditable="true" data-field="topic">การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๘. อุตสาหกรรมผลิตภัณฑ์พลาสติก</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๘</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-31" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-31" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-31" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="32">
+        <td class="seq">32</td>
+        <td class="editable" contenteditable="true" data-field="topic">การดำเนินการเพื่อประสิทธิภาพของระบบ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๑๙. อุตสาหกรรมผลิตภัณฑ์ที่ทำจากแร่อโลหะ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๙</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-32" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-32" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-32" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="33">
+        <td class="seq">33</td>
+        <td class="editable" contenteditable="true" data-field="topic">การดำเนินการเพื่อประสิทธิภาพของระบบ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๐. อุตสาหกรรมโลหะหรือผลิตภัณฑ์ที่ทำจากโลหะ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๐</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-33" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-33" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-33" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="34">
+        <td class="seq">34</td>
+        <td class="editable" contenteditable="true" data-field="topic">การดำเนินการเพื่อประสิทธิภาพของระบบ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๑. อุตสาหกรรมอุปกรณ์อิเล็กทรอนิกส์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-34" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-34" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-34" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="35">
+        <td class="seq">35</td>
+        <td class="editable" contenteditable="true" data-field="topic">การดำเนินการเพื่อประสิทธิภาพของระบบ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๒. อุตสาหกรรมเครื่องใช้ไฟฟ้าหรืออุปกรณ์ไฟฟ้า</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-35" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-35" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-35" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="36">
+        <td class="seq">36</td>
+        <td class="editable" contenteditable="true" data-field="topic">มาตรฐานอื่นที่เทียบเท่า</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๓. อุตสาหกรรมเครื่องจักรหรือเครื่องมือกล</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-36" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-36" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-36" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="37">
+        <td class="seq">37</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๔. อุตสาหกรรมยานพาหนะ ชิ้นส่วนยานพาหนะ หรืออุปกรณ์เสริมสำหรับยานพาหนะ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-37" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-37" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-37" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="38">
+        <td class="seq">38</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๕. อุตสาหกรรมเฟอร์นิเจอร์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๕</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-38" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-38" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-38" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="39">
+        <td class="seq">39</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๖. อุตสาหกรรมเครื่องประดับ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๖</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-39" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-39" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-39" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="40">
+        <td class="seq">40</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๗. อุตสาหกรรมเครื่องดนตรี</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๗</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-40" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-40" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-40" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="41">
+        <td class="seq">41</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๘. อุตสาหกรรมอุปกรณ์กีฬาออกกำลังกาย</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๘</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-41" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-41" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-41" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="42">
+        <td class="seq">42</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๒๙. อุตสาหกรรมของเล่น</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๙</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-42" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-42" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-42" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="43">
+        <td class="seq">43</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๐. อุตสาหกรรมเครื่องมืออุปกรณ์ทางการแพทย์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๐</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-43" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-43" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-43" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="44">
+        <td class="seq">44</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๑. อุตสาหกรรมการผลิตไฟฟ้า การจัดส่ง หรือการจ่ายไฟฟ้า</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-44" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-44" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-44" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="45">
+        <td class="seq">45</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๒. อุตสาหกรรมการผลิตหรือการบรรจุก๊าซ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-45" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-45" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-45" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="46">
+        <td class="seq">46</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๓. อุตสาหกรรมการผลิตถ่านโค้ก</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-46" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-46" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-46" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="47">
+        <td class="seq">47</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๔. อุตสาหกรรมการผลิต การเก็บ หรือการจำหน่ายไอน้ำ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-47" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-47" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-47" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="48">
+        <td class="seq">48</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๕. อุตสาหกรรมการเลี้ยงสัตว์หรือการเพาะปลูก</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๕</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-48" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-48" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-48" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="49">
+        <td class="seq">49</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๖. สถานีบริการตามกฎหมายว่าด้วยการค้าน้ำมันเชื้อเพลิง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๖</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-49" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-49" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-49" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="50">
+        <td class="seq">50</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๗. คลังน้ำมันเชื้อเพลิงตามกฎหมายว่าด้วยการควบคุมน้ำมันเชื้อเพลิง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๗</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-50" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-50" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-50" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="51">
+        <td class="seq">51</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๘. การให้บริการบำบัดน้ำเสียหรือกำจัดของเสียตามกฎหมายว่าด้วยการส่งเสริมและรักษาคุณภาพสิ่งแวดล้อมแห่งชาติ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๘</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-51" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-51" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-51" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="52">
+        <td class="seq">52</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๓๙. อุตสาหกรรมการนำวัสดุที่ใช้แล้วกลับมาใช้ใหม่</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๙</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-52" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-52" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-52" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="53">
+        <td class="seq">53</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๐. อุตสาหกรรมการแต่งแร่การขุดแร่รายย่อย หรือการร่อนแร่ตามกฎหมายว่าด้วยแร่</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๐</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-53" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-53" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-53" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="54">
+        <td class="seq">54</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๑. การก่อสร้าง การดัดแปลง การซ่อมแซม หรือการรื้อถอนอาคารตามกฎหมายว่าด้วยการควบคุมอาคาร</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-54" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-54" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-54" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="55">
+        <td class="seq">55</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๒. อุตสาหกรรมการขนส่ง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-55" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-55" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-55" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="56">
+        <td class="seq">56</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๓. การบริการการเดินอากาศตามกฎหมายว่าด้วยการเดินอากาศ</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-56" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-56" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-56" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="57">
+        <td class="seq">57</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๔. กิจการคลังสินค้า กิจการไซโล หรือกิจการห้องเย็นตามกฎหมายว่าด้วยคลังสินค้า ไซโลและห้องเย็น</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-57" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-57" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-57" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="58">
+        <td class="seq">58</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๕. กิจการโทรคมนาคมตามกฎหมายว่าด้วยองค์กรจัดสรรคลื่นความถี่และกำกับการประกอบกิจการวิทยุกระจายเสียง วิทยุโทรทัศน์และกิจการโทรคมนาคม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๕</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-58" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-58" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-58" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="59">
+        <td class="seq">59</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๖. การติดตั้ง การซ่อม หรือการซ่อมบำรุงเครื่องจักร</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๖</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-59" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-59" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-59" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="60">
+        <td class="seq">60</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๗. โรงแรมตามกฎหมายว่าด้วยโรงแรม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๗</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-60" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-60" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-60" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="61">
+        <td class="seq">61</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๘. กิจการนิติบุคคลอาคารชุดตามกฎหมายว่าด้วยอาคารชุด</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๘</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-61" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-61" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-61" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="62">
+        <td class="seq">62</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๔๙. ห้างสรรพสินค้า ธุรกิจค้าปลีก หรือธุรกิจค้าส่ง</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๙</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-62" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-62" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-62" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="63">
+        <td class="seq">63</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕๐. ศูนย์การจัดประชุมและการแสดงสินค้า</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๐</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-63" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-63" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-63" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="64">
+        <td class="seq">64</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕๑. โรงพยาบาล</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๑</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-64" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-64" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-64" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="65">
+        <td class="seq">65</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕๒. การทดสอบและวิเคราะห์การปฏิบัติการทางกายภาพ เคมีชีวภาพ หรือวิศวกรรม</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๒</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-65" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-65" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-65" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="66">
+        <td class="seq">66</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕๓. การขายและการบำรุงรักษายานยนต์หรือการซ่อมยานยนต์</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๓</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-66" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-66" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-66" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+      <tr class="data-row" data-group="annex" data-row="67">
+        <td class="seq">67</td>
+        <td class="editable" contenteditable="true" data-field="topic">บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</td>
+        <td class="editable law-cell" contenteditable="true" data-field="law">บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕<br>ลำดับ ๕๔. สวนสัตว์หรือสวนสนุก</td>
+        <td class="editable check-cell" contenteditable="true" data-field="check">ตรวจสอบว่ากิจการมี...<br>1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๔</td>
+        <td class="status-cell">
+          <label class="status yes"><input type="radio" name="status-67" value="yes"><span>ใช่</span></label>
+          <label class="status no"><input type="radio" name="status-67" value="no"><span>ไม่ใช่</span></label>
+          <label class="status na"><input type="radio" name="status-67" value="na"><span>ไม่เกี่ยวข้อง</span></label>
+        </td>
+        <td><textarea class="evidence" data-field="evidence" placeholder="ระบุหลักฐาน/เอกสาร เลขที่เอกสาร ลิงก์ หรือเหตุผลสำคัญ..."></textarea></td>
+      </tr>
+    
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">หมายเหตุ: เนื้อหาอ้างอิงจากเอกสารต้นฉบับ 67 รายการ โดยจัดรูปแบบใหม่ให้ใช้งานเป็นเอกสาร HTML แบบโต้ตอบได้</div>
+    </section>
+
+    <section class="card" id="annex">
+      <div class="card-head"><h2>บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ</h2></div>
+      <div style="padding:18px;color:#475467">
+        รายการลำดับ 14–67 ในตารางด้านบนเป็นประเภทกิจการตามบัญชีท้ายกฎกระทรวง สามารถใช้ปุ่ม <b>“บัญชีท้ายฯ”</b> เพื่อกรองเฉพาะส่วนนี้ได้
+      </div>
+    </section>
+
+    <section class="card" id="signoff">
+      <div class="card-head"><h2>การรับทราบข้อกำหนดและการปฏิบัติตามกฎหมาย</h2></div>
+      <div class="form-grid">
+        <div class="field"><label>ชื่อผู้รับรอง</label><input data-sign="name" placeholder="นาย/นาง/นางสาว ..."></div>
+        <div class="field"><label>ตำแหน่ง</label><input data-sign="position" value="กรรมการผู้จัดการ"></div>
+        <div class="field full"><label>สถานประกอบกิจการ</label><input data-sign="company" placeholder="ชื่อสถานประกอบกิจการ"></div>
+        <div class="field full cert"><div class="cert-box">ขอรับรองว่า ข้าพเจ้าได้รับทราบข้อกำหนดของกฎหมายตามแบบตรวจสอบการดำเนินการตามข้อกำหนดของกฎหมายฉบับนี้แล้ว และได้ดำเนินการให้สถานประกอบกิจการปฏิบัติตามข้อกำหนดของกฎหมายที่เกี่ยวข้อง</div></div>
+        <div class="field"><label>ลงชื่อ</label><input data-sign="signature" placeholder="ชื่อ-นามสกุล"></div>
+        <div class="field"><label>วันที่</label><input data-sign="date" type="date"></div>
+      </div>
+    </section>
+
+    <section class="card" id="help">
+      <div class="card-head"><h2>วิธีใช้งาน</h2></div>
+      <div style="padding:18px">
+        <ol>
+          <li>แก้ไขข้อความได้โดยคลิกในหัวเรื่องหรือเซลล์ตารางที่ต้องการ</li>
+          <li>เลือกผลตรวจ “ใช่ / ไม่ใช่ / ไม่เกี่ยวข้อง” และกรอกหลักฐานหรือเหตุผล</li>
+          <li>ข้อมูลจะบันทึกอัตโนมัติใน Local Storage ของเบราว์เซอร์</li>
+          <li>ใช้ “ดาวน์โหลด HTML ที่แก้ไขแล้ว” เพื่อเก็บเอกสารฉบับที่แก้ไขเป็นไฟล์ใหม่</li>
+          <li>ใช้ “พิมพ์ / PDF” เพื่อจัดพิมพ์หรือบันทึก PDF แบบแนวนอน</li>
+        </ol>
+        <button class="filter-btn" style="border-color:#f0b4b4;color:#b42318" onclick="resetAll()">ล้างข้อมูลที่กรอกและคืนค่าเริ่มต้น</button>
+      </div>
+    </section>
+
+    <div class="footer">เอกสาร HTML นี้สร้างจากไฟล์ต้นฉบับและออกแบบให้แก้ไข/บันทึก/ค้นหา/กรอง/พิมพ์ได้ในไฟล์เดียว</div>
+  </main>
+</div>
+<div id="toast" class="toast">บันทึกแล้ว</div>
+
+<script>
+const STORAGE_KEY = 'safety-compliance-2565-v1';
+const ORIGINAL_ROWS = [{"no": "1", "topic": "การใช้บังคับ", "law": "ข้อ ๑ กฎกระทรวงนี้ให้ใช้บังคับเมื่อพ้นกำหนดหกสิบวันนับแต่วันประกาศในราชกิจจานุเบกษาเป็นต้นไป", "check": "ตรวจสอบว่ากิจการมี\nการรับทราบเรื่องกำหนดบังคับใช้กฏกระทรวง", "evidence": ""}, {"no": "2", "topic": "การยกเลิกกฎกระทรวงเดิม", "law": "ข้อ ๒ ให้ยกเลิกกฎกระทรวงกำหนดมาตรฐานในการบริหารและการจัดการด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน (ฉบับที่ ๒) พ.ศ. ๒๕๕๓", "check": "ตรวจสอบว่ากิจการใช้กฎกระทรวง พ.ศ. 2565 แทนกฎกระทรวงฉบับที่ 2 พ.ศ. 2553", "evidence": ""}, {"no": "3", "topic": "นิยาม", "law": "ข้อ ๓ ในกฎกระทรวงนี้\n“ระบบการจัดการด้านความปลอดภัย” หมายความว่า ระบบการจัดการที่กำหนดขึ้นเป็นส่วนหนึ่งของระบบการจัดการของสถานประกอบกิจการเพื่อนำไปปฏิบัติให้เป็นไปตามนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ซึ่งครอบคลุมการจัดการความเสี่ยงด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของสถานประกอบกิจการ", "check": "ตรวจสอบว่ากิจการทราบ\nความหมายระบบการจัดการความปลอดภัย\n1 ความปลอดภัยเป็นส่วนหนึ่งของระบบกิจการ\n2 ระบบความปลอดภัยที่ดำเนินนโยบาย คปภฯ ครอบคลุมถึงการจัดการความเสี่ยง", "evidence": ""}, {"no": "4", "topic": "การจัดให้มีระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๔ นายจ้างของสถานประกอบกิจการตามที่ระบุไว้ในบัญชีท้ายกฎกระทรวงนี้ ที่มีลูกจ้างจำนวนห้าสิบคนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย ทั้งนี้ ภายในหกสิบวันนับแต่วันที่มีลูกจ้างครบจำนวนดังกล่าว", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง\n2 ลูกจ้างตั้งแต่ 50 คนขึ้นไป\n3 ระบบการจัดการด้านความปลอดภัยภายใน 60 วันนับแต่วันที่มีลูกจ้างครบ 50 คน", "evidence": ""}, {"no": "5", "topic": "การจัดให้มีระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๕ ระบบการจัดการด้านความปลอดภัย อย่างน้อยต้องประกอบด้วย\n(๑) นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน\n(๒) การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน\n(๓) แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน และการนำไปปฏิบัติ\n(๔) การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย\n(๕) การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย", "check": "ตรวจสอบว่ากิจการมี...\n1 นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน\n2 การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน\n3 แผนงานด้านความปลอดภัยฯ และการนำไปปฏิบัติ\n4 การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย\n5 การปรับปรุงและพัฒนาระบบการจัดการด้านความปลอดภัย", "evidence": ""}, {"no": "6", "topic": "องค์ประกอบของระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๖ ในการกำหนดนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) นายจ้างต้องมีหน้าที่ ดังต่อไปนี้\n(๑) จัดให้ลูกจ้างในสถานประกอบกิจการมีส่วนร่วมกำหนดนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน และเผยแพร่ให้ลูกจ้างหรือผู้ซึ่งเกี่ยวข้องทราบอย่างทั่วถึง\n(๒) จัดทำนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) เป็นภาษาไทยหรือจะมีภาษาอื่นที่ลูกจ้างสามารถเข้าใจด้วยก็ได้ พร้อมลงลายมือชื่อ ประทับตรารับรอง และลงวันที่ให้ถูกต้องครบถ้วน โดยจะจัดทำในรูปแบบข้อมูลอิเล็กทรอนิกส์ด้วยก็ได้\n(๓) จัดให้มีการทบทวนนโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานอย่างน้อยปีละหนึ่งครั้ง", "check": "ตรวจสอบว่ากิจการมี…\n\n1 ลูกจ้างมีส่วนร่วมกำหนดนโยบาย และมีการเผยแพร่นโยบายให้ผู้เกี่ยวข้องทราบ\n2 นโยบายเป็นภาษาไทยหรือภาษาที่ลูกจ้างเข้าใจ พร้อมลงลายมือชื่อ ประทับตรารับรอง และลงวันที่ครบถ้วน\n3 การทบทวนนโยบายอย่างน้อยปีละ 1 ครั้ง", "evidence": ""}, {"no": "7", "topic": "องค์ประกอบของระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๗ นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๑) ต้องสอดคล้องกับสภาพการทำงานและกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน เพื่อบรรลุวัตถุประสงค์ ดังต่อไปนี้\n(๑) เพื่อคุ้มครองความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้างในสถานประกอบกิจการ\n(๒) เพื่อให้การปฏิบัติตามกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานเป็นไปอย่างมีประสิทธิภาพ", "check": "ตรวจสอบว่ากิจการมี…\n\n1 นโยบายสอดคล้องกับสภาพการทำงานและกฎหมายด้านความปลอดภัยฯ\n2 วัตถุประสงค์เพื่อคุ้มครองความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้าง\n3 วัตถุประสงค์เพื่อให้การปฏิบัติตามกฎหมายด้านความปลอดภัยฯ เป็นไปอย่างมีประสิทธิภาพ", "evidence": ""}, {"no": "8", "topic": "องค์ประกอบของระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๘ การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๒) อย่างน้อยต้องประกอบด้วย\n(๑) การจัดให้มีบุคลากรซึ่งมีหน้าที่และความรับผิดชอบเกี่ยวกับการดำเนินการตามระบบการจัดการด้านความปลอดภัยที่เหมาะสมกับบุคลากรแต่ละตำแหน่ง\n(๒) การฝึกอบรมบุคลากรเกี่ยวกับการดำเนินการตามระบบการจัดการด้านความปลอดภัย เพื่อให้มีความรู้และทักษะเพียงพอ สามารถปฏิบัติงานที่รับผิดชอบได้อย่างปลอดภัย\n(๓) การจัดทำเอกสารเกี่ยวกับระบบการจัดการด้านความปลอดภัยให้เป็นปัจจุบัน เก็บไว้ในสถานประกอบกิจการเป็นเวลาไม่น้อยกว่าสองปีนับแต่วันจัดทำ และพร้อมที่จะให้พนักงานตรวจความปลอดภัยตรวจสอบได้ โดยจะจัดทำในรูปแบบข้อมูลอิเล็กทรอนิกส์ด้วยก็ได้\n(๔) การสื่อสารข้อมูลเกี่ยวกับระบบการจัดการด้านความปลอดภัยให้แก่ลูกจ้าง หรือผู้ซึ่งเกี่ยวข้องในสถานประกอบกิจการ และข้อมูลเกี่ยวกับอันตรายและมาตรฐานความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานให้แก่ผู้รับเหมาและผู้ซึ่งเกี่ยวข้อง", "check": "ตรวจสอบว่ากิจการมี…\n\n1 บุคลากรรับผิดชอบระบบการจัดการด้านความปลอดภัยตามความเหมาะสมของแต่ละตำแหน่ง\n2 การฝึกอบรมบุคลากรให้มีความรู้และทักษะเพียงพอสำหรับงานที่รับผิดชอบ\n3 เอกสารระบบการจัดการด้านความปลอดภัยที่เป็นปัจจุบัน เก็บไว้อย่างน้อย 2 ปี และพร้อมให้พนักงานตรวจความปลอดภัยตรวจสอบ\n4 การสื่อสารข้อมูลระบบฯ แก่ลูกจ้างหรือผู้เกี่ยวข้อง และข้อมูลอันตรายกับมาตรฐานฯ แก่ผู้รับเหมาและผู้เกี่ยวข้อง", "evidence": ""}, {"no": "9", "topic": "องค์ประกอบของระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๙ แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานตามข้อ ๕ (๓) อย่างน้อยต้องมีเนื้อหา ดังต่อไปนี้\n(๑) การทบทวนสถานะเบื้องต้นเกี่ยวกับสภาพแวดล้อมที่ปรากฏอยู่ในบริเวณที่ทำงานของลูกจ้าง ซึ่งรวมถึงการระบายอากาศ สารเคมีอันตราย ความร้อน แสงสว่าง เสียง รังสี ไฟฟ้า ที่อับอากาศ เครื่องจักร อาคาร สถานที่ ตลอดจนสภาพและลักษณะการทำงานอย่างอื่นของลูกจ้าง และในกรณีที่มีการเปลี่ยนแปลงสภาพแวดล้อมจะต้องมีการทบทวนสถานะเบื้องต้นเกี่ยวกับสภาพแวดล้อม เพื่อให้ทราบถึงอันตรายหรือระดับความเสี่ยงด้วยทุกครั้ง\n(๒) การนำผลการทบทวนสถานะเบื้องต้นมาวางแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ให้สอดคล้องกับกฎหมายว่าด้วยความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ซึ่งอย่างน้อยต้องมีการกำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลาในการดำเนินการ และเกณฑ์การประเมินผล\n(๓) การนำแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานไปปฏิบัติ\n(๔) การประเมินผลที่ได้จากการปฏิบัติตามแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน\n(๕) การนำผลการประเมินตาม (๔) ไปปรับปรุงแผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "check": "ตรวจสอบว่ากิจการมี…\n\n1 การทบทวนสภาพแวดล้อมและลักษณะงาน เพื่อทราบอันตรายหรือระดับความเสี่ยง และทบทวนเมื่อสภาพแวดล้อมเปลี่ยนแปลง\n2 แผนงานที่กำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลา และเกณฑ์ประเมินผล\n3 การนำแผนงานด้านความปลอดภัยฯ ไปปฏิบัติ\n4 การประเมินผลจากการปฏิบัติตามแผนงาน\n5 การนำผลประเมินไปปรับปรุงแผนงาน", "evidence": ""}, {"no": "10", "topic": "องค์ประกอบของระบบการจัดการด้านความปลอดภัย", "law": "ข้อ ๑๐ ในการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามข้อ ๕ (๔) อย่างน้อยต้องดำเนินการ ดังนี้\n(๑) มีการตรวจติดตามและการวัดผลการปฏิบัติงานของระบบการจัดการด้านความปลอดภัย\n(๒) มีการสอบสวนหาสาเหตุของการเกิดอุบัติการณ์ การเจ็บป่วย โรคจากการทำงานหรือความเสียหายต่อทรัพย์สิน เพื่อกำหนดมาตรการในการแก้ไขและปรับปรุงระบบการจัดการด้านความปลอดภัย และกำหนดมาตรการป้องกันการเกิดเหตุดังกล่าวซ้ำอีก\n(๓) มีการทบทวนระบบการจัดการด้านความปลอดภัย โดยนำผลการดำเนินการตามระบบการจัดการด้านความปลอดภัยของสถานประกอบกิจการมาวิเคราะห์หาสาเหตุของข้อบกพร่องและแนวโน้มที่จะเกิดข้อบกพร่อง\nนายจ้างต้องจัดให้มีการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามวรรคหนึ่ง อย่างน้อยปีละหนึ่งครั้ง", "check": "ตรวจสอบว่ากิจการมี…\n\n1 การตรวจติดตามและวัดผลระบบการจัดการด้านความปลอดภัย\n2 การสอบสวนอุบัติการณ์ การเจ็บป่วย โรคจากการทำงาน หรือความเสียหายต่อทรัพย์สิน และมาตรการแก้ไข ปรับปรุง และป้องกันการเกิดซ้ำ\n3 การทบทวนระบบฯ และวิเคราะห์ข้อบกพร่องกับแนวโน้มที่จะเกิดข้อบกพร่อง\n4 การประเมินผลและทบทวนระบบฯ อย่างน้อยปีละ 1 ครั้ง", "evidence": ""}, {"no": "11", "topic": "นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "ข้อ ๑๑ การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัยตามข้อ ๕ (๕) ต้องนำผลที่ได้จากการประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยตามข้อ ๑๐ มาปรับปรุงแก้ไขระบบการจัดการด้านความปลอดภัยด้วย\nการปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัยตามวรรคหนึ่ง ต้องมีการดำเนินการอย่างต่อเนื่อง เพื่อให้ระบบการจัดการด้านความปลอดภัยเป็นไปอย่างมีประสิทธิภาพ และบรรลุวัตถุประสงค์ด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "check": "ตรวจสอบว่ากิจการมี…\n\n1 การนำผลประเมินและการทบทวนมาปรับปรุงระบบการจัดการด้านความปลอดภัย\n2 การปรับปรุงและพัฒนาระบบฯ อย่างต่อเนื่อง เพื่อให้ระบบมีประสิทธิภาพและบรรลุวัตถุประสงค์ด้านความปลอดภัยฯ", "evidence": ""}, {"no": "12", "topic": "นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "ข้อ ๑๒ เพื่อให้ระบบการจัดการด้านความปลอดภัยของสถานประกอบกิจการเป็นไปอย่างมีประสิทธิภาพ ให้นายจ้างของสถานประกอบกิจการต้อง\n(๑) ควบคุมดูแลการดำเนินการตามระบบการจัดการด้านความปลอดภัย\n(๒) เปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในการดำเนินการตามระบบการจัดการด้านความปลอดภัย\n(๓) จัดให้ลูกจ้างสามารถเข้าถึงข้อมูลต่าง ๆ ที่เกี่ยวข้องกับระบบการจัดการด้านความปลอดภัยได้ โดยคำนึงถึงการรักษาข้อมูลส่วนบุคคล\n(๔) จัดให้มีช่องทางในการรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียนเกี่ยวกับความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงานของลูกจ้าง เพื่อนำข้อมูลมาพิจารณาดำเนินการปรับปรุงแก้ไขระบบการจัดการด้านความปลอดภัย", "check": "ตรวจสอบว่ากิจการมี…\n\n1 การควบคุมดูแลระบบการจัดการด้านความปลอดภัย\n2 การเปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในระบบฯ\n3 การให้ลูกจ้างเข้าถึงข้อมูลที่เกี่ยวข้องกับระบบฯ โดยคำนึงถึงข้อมูลส่วนบุคคล\n4 ช่องทางรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียน เพื่อนำไปปรับปรุงระบบฯ", "evidence": ""}, {"no": "13", "topic": "นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "ข้อ ๑๓ ในกรณีที่นายจ้างได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามมาตรฐานผลิตภัณฑ์อุตสาหกรรม มาตรฐานขององค์การมาตรฐานสากล (International Standardization for Organization : ISO) มาตรฐานขององค์การแรงงานระหว่างประเทศ (International Labour Organization : ILO) มาตรฐานของสถาบันมาตรฐานสหราชอาณาจักร (British Standards Institution : BSI) มาตรฐานของสำนักงานบริหารความปลอดภัยและอาชีวอนามัยแห่งชาติ (Occupational Safety and Health Administration : OSHA) มาตรฐานของสถาบันมาตรฐานแห่งชาติประเทศสหรัฐอเมริกา (American National Standards Institute : ANSI) มาตรฐานของประเทศออสเตรเลียและประเทศนิวซีแลนด์ (Australia Standards /New Zealand Standards : AS/NZS) มาตรฐานของสมาพันธ์การกำหนดมาตรฐานของประเทศแคนาดา (Canadian Standards Association : CSA) หรือมาตรฐานอื่นที่เทียบเท่าตามที่อธิบดีประกาศกำหนด ให้ถือว่าได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงนี้แล้ว", "check": "ตรวจสอบว่ากิจการมี…\n\n1 ระบบการจัดการด้านความปลอดภัยตามมาตรฐานที่กฎหมายยอมรับ\n2 เอกสารหรือหลักฐานของมาตรฐานที่ใช้ และเป็นมาตรฐานที่เทียบเท่าตามที่อธิบดีประกาศกำหนด หากเป็นมาตรฐานอื่น\n3 ระบบที่ถือว่าเป็นการจัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงนี้แล้ว เมื่อเข้าเงื่อนไขตามกฎหมาย", "evidence": ""}, {"no": "14", "topic": "วัตถุประสงค์ของนโยบาย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑. อุตสาหกรรมเกี่ยวกับการทำเหมืองตามกฎหมายว่าด้วยแร่", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑", "evidence": ""}, {"no": "15", "topic": "วัตถุประสงค์ของนโยบาย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒. อุตสาหกรรมเกี่ยวกับกิจการปิโตรเลียมตามกฎหมายว่าด้วยปิโตรเลียม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒", "evidence": ""}, {"no": "16", "topic": "การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓. อุตสาหกรรมเกี่ยวกับปิโตรเคมี", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓", "evidence": ""}, {"no": "17", "topic": "การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔. อุตสาหกรรมเกี่ยวกับการกลั่นน้ำมันปิโตรเลียม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔", "evidence": ""}, {"no": "18", "topic": "การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕. อุตสาหกรรมเกี่ยวกับการแยกก๊าซธรรมชาติ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕", "evidence": ""}, {"no": "19", "topic": "การจัดการองค์กรด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๖. อุตสาหกรรมสิ่งพิมพ์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๖", "evidence": ""}, {"no": "20", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๗. อุตสาหกรรมผลิตภัณฑ์อาหาร", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๗", "evidence": ""}, {"no": "21", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๘. อุตสาหกรรมเครื่องดื่ม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๘", "evidence": ""}, {"no": "22", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๙. อุตสาหกรรมผลิตภัณฑ์จากยาสูบ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๙", "evidence": ""}, {"no": "23", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๐. อุตสาหกรรมสิ่งทอ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๐", "evidence": ""}, {"no": "24", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๑. อุตสาหกรรมเสื้อผ้าหรือเครื่องแต่งกาย", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๑", "evidence": ""}, {"no": "25", "topic": "แผนงานด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๒. อุตสาหกรรมเครื่องหนัง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๒", "evidence": ""}, {"no": "26", "topic": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๓. อุตสาหกรรมผลิตภัณฑ์จากไม้", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๓", "evidence": ""}, {"no": "27", "topic": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๔. อุตสาหกรรมกระดาษหรือผลิตภัณฑ์ที่แปรรูปจากกระดาษ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๔", "evidence": ""}, {"no": "28", "topic": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๕. อุตสาหกรรมการผลิตสารเคมีหรือเคมีภัณฑ์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๕", "evidence": ""}, {"no": "29", "topic": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๖. อุตสาหกรรมเภสัชภัณฑ์หรือเวชภัณฑ์ทางการแพทย์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๖", "evidence": ""}, {"no": "30", "topic": "การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๗. อุตสาหกรรมผลิตภัณฑ์ยาง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๗", "evidence": ""}, {"no": "31", "topic": "การปรับปรุงและการพัฒนาระบบการจัดการด้านความปลอดภัย", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๘. อุตสาหกรรมผลิตภัณฑ์พลาสติก", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๘", "evidence": ""}, {"no": "32", "topic": "การดำเนินการเพื่อประสิทธิภาพของระบบ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๑๙. อุตสาหกรรมผลิตภัณฑ์ที่ทำจากแร่อโลหะ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๑๙", "evidence": ""}, {"no": "33", "topic": "การดำเนินการเพื่อประสิทธิภาพของระบบ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๐. อุตสาหกรรมโลหะหรือผลิตภัณฑ์ที่ทำจากโลหะ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๐", "evidence": ""}, {"no": "34", "topic": "การดำเนินการเพื่อประสิทธิภาพของระบบ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๑. อุตสาหกรรมอุปกรณ์อิเล็กทรอนิกส์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๑", "evidence": ""}, {"no": "35", "topic": "การดำเนินการเพื่อประสิทธิภาพของระบบ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๒. อุตสาหกรรมเครื่องใช้ไฟฟ้าหรืออุปกรณ์ไฟฟ้า", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๒", "evidence": ""}, {"no": "36", "topic": "มาตรฐานอื่นที่เทียบเท่า", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๓. อุตสาหกรรมเครื่องจักรหรือเครื่องมือกล", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๓", "evidence": ""}, {"no": "37", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๔. อุตสาหกรรมยานพาหนะ ชิ้นส่วนยานพาหนะ หรืออุปกรณ์เสริมสำหรับยานพาหนะ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๔", "evidence": ""}, {"no": "38", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๕. อุตสาหกรรมเฟอร์นิเจอร์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๕", "evidence": ""}, {"no": "39", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๖. อุตสาหกรรมเครื่องประดับ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๖", "evidence": ""}, {"no": "40", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๗. อุตสาหกรรมเครื่องดนตรี", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๗", "evidence": ""}, {"no": "41", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๘. อุตสาหกรรมอุปกรณ์กีฬาออกกำลังกาย", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๘", "evidence": ""}, {"no": "42", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๒๙. อุตสาหกรรมของเล่น", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๒๙", "evidence": ""}, {"no": "43", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๐. อุตสาหกรรมเครื่องมืออุปกรณ์ทางการแพทย์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๐", "evidence": ""}, {"no": "44", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๑. อุตสาหกรรมการผลิตไฟฟ้า การจัดส่ง หรือการจ่ายไฟฟ้า", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๑", "evidence": ""}, {"no": "45", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๒. อุตสาหกรรมการผลิตหรือการบรรจุก๊าซ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๒", "evidence": ""}, {"no": "46", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๓. อุตสาหกรรมการผลิตถ่านโค้ก", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๓", "evidence": ""}, {"no": "47", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๔. อุตสาหกรรมการผลิต การเก็บ หรือการจำหน่ายไอน้ำ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๔", "evidence": ""}, {"no": "48", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๕. อุตสาหกรรมการเลี้ยงสัตว์หรือการเพาะปลูก", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๕", "evidence": ""}, {"no": "49", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๖. สถานีบริการตามกฎหมายว่าด้วยการค้าน้ำมันเชื้อเพลิง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๖", "evidence": ""}, {"no": "50", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๗. คลังน้ำมันเชื้อเพลิงตามกฎหมายว่าด้วยการควบคุมน้ำมันเชื้อเพลิง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๗", "evidence": ""}, {"no": "51", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๘. การให้บริการบำบัดน้ำเสียหรือกำจัดของเสียตามกฎหมายว่าด้วยการส่งเสริมและรักษาคุณภาพสิ่งแวดล้อมแห่งชาติ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๘", "evidence": ""}, {"no": "52", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๓๙. อุตสาหกรรมการนำวัสดุที่ใช้แล้วกลับมาใช้ใหม่", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๓๙", "evidence": ""}, {"no": "53", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๐. อุตสาหกรรมการแต่งแร่การขุดแร่รายย่อย หรือการร่อนแร่ตามกฎหมายว่าด้วยแร่", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๐", "evidence": ""}, {"no": "54", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๑. การก่อสร้าง การดัดแปลง การซ่อมแซม หรือการรื้อถอนอาคารตามกฎหมายว่าด้วยการควบคุมอาคาร", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๑", "evidence": ""}, {"no": "55", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๒. อุตสาหกรรมการขนส่ง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๒", "evidence": ""}, {"no": "56", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๓. การบริการการเดินอากาศตามกฎหมายว่าด้วยการเดินอากาศ", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๓", "evidence": ""}, {"no": "57", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๔. กิจการคลังสินค้า กิจการไซโล หรือกิจการห้องเย็นตามกฎหมายว่าด้วยคลังสินค้า ไซโลและห้องเย็น", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๔", "evidence": ""}, {"no": "58", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๕. กิจการโทรคมนาคมตามกฎหมายว่าด้วยองค์กรจัดสรรคลื่นความถี่และกำกับการประกอบกิจการวิทยุกระจายเสียง วิทยุโทรทัศน์และกิจการโทรคมนาคม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๕", "evidence": ""}, {"no": "59", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๖. การติดตั้ง การซ่อม หรือการซ่อมบำรุงเครื่องจักร", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๖", "evidence": ""}, {"no": "60", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๗. โรงแรมตามกฎหมายว่าด้วยโรงแรม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๗", "evidence": ""}, {"no": "61", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๘. กิจการนิติบุคคลอาคารชุดตามกฎหมายว่าด้วยอาคารชุด", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๘", "evidence": ""}, {"no": "62", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๔๙. ห้างสรรพสินค้า ธุรกิจค้าปลีก หรือธุรกิจค้าส่ง", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๔๙", "evidence": ""}, {"no": "63", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕๐. ศูนย์การจัดประชุมและการแสดงสินค้า", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๐", "evidence": ""}, {"no": "64", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕๑. โรงพยาบาล", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๑", "evidence": ""}, {"no": "65", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕๒. การทดสอบและวิเคราะห์การปฏิบัติการทางกายภาพ เคมีชีวภาพ หรือวิศวกรรม", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๒", "evidence": ""}, {"no": "66", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕๓. การขายและการบำรุงรักษายานยนต์หรือการซ่อมยานยนต์", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๓", "evidence": ""}, {"no": "67", "topic": "บัญชีท้ายกฎกระทรวง / สถานประกอบกิจการ", "law": "บัญชีท้ายกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. ๒๕๖๕\nลำดับ ๕๔. สวนสัตว์หรือสวนสนุก", "check": "ตรวจสอบว่ากิจการมี...\n1 ประเภทกิจการตรงตามบัญชีท้ายกฎกระทรวง ลำดับที่ ๕๔", "evidence": ""}];
+let activeFilter = 'all';
+let pendingOnly = false;
+let saveTimer = null;
+
+function textOf(el){ return el.innerText.replace(/\n{3,}/g,'\n\n').trim(); }
+
+function collectData(){
+  const data = {
+    title1: textOf(document.querySelector('[data-docfield="title1"]')),
+    title2: textOf(document.querySelector('[data-docfield="title2"]')),
+    rows: {}, signoff: {}, savedAt: new Date().toISOString()
+  };
+  document.querySelectorAll('.data-row').forEach(tr=>{
+    const id=tr.dataset.row;
+    data.rows[id] = {
+      topic:textOf(tr.querySelector('[data-field="topic"]')),
+      law:textOf(tr.querySelector('[data-field="law"]')),
+      check:textOf(tr.querySelector('[data-field="check"]')),
+      status:(tr.querySelector('input[type=radio]:checked')||{}).value||'',
+      evidence:tr.querySelector('.evidence').value
+    };
+  });
+  document.querySelectorAll('[data-sign]').forEach(el=>data.signoff[el.dataset.sign]=el.value);
+  return data;
+}
+
+function applyData(data){
+  if(!data) return;
+  if(data.title1) document.querySelector('[data-docfield="title1"]').innerText=data.title1;
+  if(data.title2) document.querySelector('[data-docfield="title2"]').innerText=data.title2;
+  if(data.rows) Object.entries(data.rows).forEach(([id,r])=>{
+    const tr=document.querySelector(`.data-row[data-row="${id}"]`); if(!tr)return;
+    if(r.topic!==undefined) tr.querySelector('[data-field="topic"]').innerText=r.topic;
+    if(r.law!==undefined) tr.querySelector('[data-field="law"]').innerText=r.law;
+    if(r.check!==undefined) tr.querySelector('[data-field="check"]').innerText=r.check;
+    tr.querySelector('.evidence').value=r.evidence||'';
+    if(r.status){ const radio=tr.querySelector(`input[value="${r.status}"]`); if(radio)radio.checked=true; }
+  });
+  if(data.signoff) Object.entries(data.signoff).forEach(([k,v])=>{const el=document.querySelector(`[data-sign="${k}"]`);if(el)el.value=v||'';});
+  updateStats();
+}
+
+function saveAll(show=false){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(collectData()));
+  if(show) toast('บันทึกแล้ว');
+}
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer=setTimeout(()=>saveAll(false),350); }
+
+document.addEventListener('input',e=>{
+  if(e.target.matches('[contenteditable], textarea, input[data-sign]')) scheduleSave();
+});
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[type=radio], input[data-sign]')){saveAll(false);updateStats();applyFilter();}
+});
+
+function updateStats(){
+  const trs=[...document.querySelectorAll('.data-row')];
+  let yes=0,no=0,assessed=0;
+  trs.forEach(tr=>{const r=tr.querySelector('input[type=radio]:checked'); if(r){assessed++;if(r.value==='yes')yes++;if(r.value==='no')no++;}});
+  document.getElementById('stTotal').textContent=trs.length;
+  document.getElementById('stYes').textContent=yes;
+  document.getElementById('stNo').textContent=no;
+  document.getElementById('stDone').textContent=Math.round(assessed/trs.length*100)+'%';
+}
+
+function setFilter(f,btn){
+  activeFilter=f; pendingOnly=false;
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(b=>b.classList.remove('active')); if(btn)btn.classList.add('active');
+  applyFilter();
+  if(f==='annex') document.getElementById('annex').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showOnlyPending(btn){pendingOnly=!pendingOnly;btn.classList.toggle('active',pendingOnly);applyFilter();}
+function applyFilter(){
+  const q=document.getElementById('searchBox').value.trim().toLowerCase();
+  document.querySelectorAll('.data-row').forEach(tr=>{
+    const groupOK=activeFilter==='all'||tr.dataset.group===activeFilter;
+    const searchOK=!q||tr.innerText.toLowerCase().includes(q);
+    const statusOK=!pendingOnly||!tr.querySelector('input[type=radio]:checked');
+    tr.style.display=(groupOK&&searchOK&&statusOK)?'':'none';
+  });
+}
+
+function downloadBlob(content,name,type){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function exportJSON(){downloadBlob(JSON.stringify(collectData(),null,2),'safety-compliance-data.json','application/json;charset=utf-8');}
+function importJSON(ev){
+  const f=ev.target.files[0]; if(!f)return; const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);applyData(d);saveAll(true);}catch(e){alert('ไฟล์ JSON ไม่ถูกต้อง');}}; r.readAsText(f,'utf-8'); ev.target.value='';
+}
+function downloadHTML(){
+  saveAll(false);
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelectorAll('textarea').forEach((el,i)=>{ el.textContent=document.querySelectorAll('textarea')[i].value; });
+  clone.querySelectorAll('input').forEach((el,i)=>{
+    const src=document.querySelectorAll('input')[i];
+    if(src.type==='radio'){ if(src.checked) el.setAttribute('checked','checked'); else el.removeAttribute('checked'); }
+    else if(src.type!=='file') el.setAttribute('value',src.value);
+  });
+  const state=JSON.stringify(collectData()).replace(/</g,'\\u003c');
+  const marker='const STORAGE_KEY';
+  let s='<!doctype html>\n'+clone.outerHTML;
+  // keep state portable: browser will load current visible DOM; localStorage remains optional
+  downloadBlob(s,'safety-compliance-edited.html','text/html;charset=utf-8');
+  toast('สร้างไฟล์ HTML แล้ว');
+}
+function resetAll(){
+  if(!confirm('ต้องการล้างข้อมูลที่กรอกและคืนค่าเริ่มต้นทั้งหมดหรือไม่?'))return;
+  localStorage.removeItem(STORAGE_KEY); location.reload();
+}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500)}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null'); if(saved)applyData(saved);}catch(e){}
+  updateStats();
+});
+</script>
+</body>
+</html>
