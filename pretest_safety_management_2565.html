@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pre-test ระบบการจัดการด้านความปลอดภัย พ.ศ. 2565</title>
+<style>
+:root{
+ --bg:#f4f7fb;--card:#fff;--ink:#182230;--muted:#667085;--primary:#155eef;--nav:#0f2742;
+ --ok:#0f9f6e;--bad:#d92d20;--line:#dfe5ee;--warn:#b7791f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#eef4fb,#f8fafc);font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;color:var(--ink);line-height:1.55}
+header{background:linear-gradient(135deg,#102a43,#173f6b);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 5px 20px rgba(0,0,0,.12)}
+.top{max-width:1100px;margin:auto;padding:14px 20px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.title strong{display:block;font-size:17px} .title small{opacity:.8}
+.timer{font-size:20px;font-weight:800;background:rgba(255,255,255,.12);padding:8px 14px;border-radius:12px}
+.timer.danger{background:#b42318}
+main{max-width:1000px;margin:22px auto;padding:0 16px 40px}
+.hero{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 12px 30px rgba(16,36,68,.08);margin-bottom:16px}
+.hero h1{margin:0 0 6px;font-size:28px} .hero p{margin:0;color:var(--muted)}
+.progress-wrap{margin-top:16px;background:#e9eef5;height:10px;border-radius:999px;overflow:hidden}
+.progress{height:100%;width:0;background:linear-gradient(90deg,#155eef,#47a4ff);transition:.2s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:7px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 6px 16px rgba(16,36,68,.05)}
+.qno{font-size:13px;font-weight:800;color:var(--primary);margin-bottom:5px}
+.qtext{font-size:17px;font-weight:700;margin-bottom:12px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid #d9e1ec;border-radius:12px;padding:11px 12px;margin:8px 0;cursor:pointer;transition:.15s}
+.opt:hover{border-color:#8db7f4;background:#f7fbff}
+.opt input{margin-top:4px;accent-color:var(--primary)}
+.opt.selected{border-color:var(--primary);background:#eef5ff}
+.opt.correct{border-color:#65c9a7;background:#ecfdf3}
+.opt.wrong{border-color:#f29b94;background:#fff1f0}
+.answer-box{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;background:#f8fafc;border-left:4px solid var(--primary);font-size:14px}
+.answer-box.show{display:block}
+.actions{position:sticky;bottom:0;background:rgba(244,247,251,.94);backdrop-filter:blur(6px);padding:12px 0;display:flex;justify-content:center;gap:10px;z-index:10}
+button{border:0;border-radius:11px;padding:11px 16px;font:inherit;cursor:pointer;font-weight:700}
+.btn-primary{background:var(--primary);color:#fff} .btn-secondary{background:#fff;color:#344054;border:1px solid var(--line)}
+.result{display:none;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 12px 28px rgba(16,36,68,.08)}
+.result.show{display:block}
+.score{font-size:42px;font-weight:900;color:var(--primary);line-height:1}
+.badge{display:inline-block;margin-top:8px;padding:7px 11px;border-radius:999px;font-weight:700;background:#eef4ff;color:#174ea6}
+.review-title{margin-top:16px;font-weight:800}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+@media(max-width:600px){.hero h1{font-size:22px}.timer{font-size:17px}}
+@media print{header,.actions{display:none}body{background:white}.card,.hero,.result{box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="title"><strong>Pre-test: ระบบการจัดการด้านความปลอดภัย</strong><small>กฎกระทรวง พ.ศ. 2565</small></div>
+    <div id="timer" class="timer">10:00</div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <h1>แบบทดสอบก่อนเรียน 10 ข้อ</h1>
+  <p>เลือกคำตอบที่ถูกต้องที่สุดเพียง 1 ข้อ เมื่อกดส่งคำตอบ ระบบจะแสดงคะแนน คำตอบที่ถูกต้อง และคำอธิบายทุกข้อ</p>
+  <div class="progress-wrap"><div id="progress" class="progress"></div></div>
+  <div class="meta"><span id="answered">ตอบแล้ว 0/10</span><span>เวลา 10 นาที</span></div>
+</section>
+
+<div id="quiz"></div>
+
+<section id="result" class="result">
+  <div class="score" id="score">0/10</div>
+  <div id="badge" class="badge"></div>
+  <div class="review-title">เฉลยและคำอธิบาย</div>
+  <p class="note">คำตอบที่ถูกต้องจะแสดงเป็นสีเขียว และคำตอบที่เลือกผิดจะแสดงเป็นสีแดง</p>
+</section>
+
+<div class="actions">
+  <button class="btn-secondary" onclick="resetQuiz()">เริ่มใหม่</button>
+  <button class="btn-primary" onclick="submitQuiz(false)">ส่งคำตอบ</button>
+</div>
+</main>
+
+<script>
+const QUESTIONS = [{"q": "ตามกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. 2565 สถานประกอบกิจการที่อยู่ในบัญชีท้ายกฎกระทรวงและมีลูกจ้างตั้งแต่กี่คนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย?", "choices": ["20 คน", "30 คน", "50 คน", "100 คน"], "ans": 2, "exp": "ข้อ 4 กำหนดว่าสถานประกอบกิจการตามบัญชีท้ายกฎกระทรวงที่มีลูกจ้างตั้งแต่ 50 คนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย"}, {"q": "เมื่อนายจ้างมีลูกจ้างครบตามจำนวนที่กฎหมายกำหนด ต้องจัดให้มีระบบการจัดการด้านความปลอดภัยภายในกี่วัน?", "choices": ["30 วัน", "45 วัน", "60 วัน", "90 วัน"], "ans": 2, "exp": "ข้อ 4 กำหนดให้จัดระบบการจัดการด้านความปลอดภัยภายใน 60 วันนับแต่วันที่มีลูกจ้างครบจำนวน"}, {"q": "ข้อใดไม่ใช่องค์ประกอบขั้นต่ำของระบบการจัดการด้านความปลอดภัยตามข้อ 5?", "choices": ["นโยบายด้านความปลอดภัยฯ", "การจัดการองค์กรด้านความปลอดภัยฯ", "แผนงานด้านความปลอดภัยฯ และการนำไปปฏิบัติ", "การกำหนดโบนัสประจำปีของลูกจ้าง"], "ans": 3, "exp": "องค์ประกอบตามข้อ 5 ครอบคลุมนโยบาย การจัดการองค์กร แผนงานและการนำไปปฏิบัติ การประเมิน/ทบทวน และการปรับปรุงพัฒนา ไม่ได้กำหนดเรื่องโบนัสประจำปี"}, {"q": "นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ต้องได้รับการทบทวนอย่างน้อยบ่อยเพียงใด?", "choices": ["ทุก 3 เดือน", "ทุก 6 เดือน", "ปีละ 1 ครั้ง", "ทุก 2 ปี"], "ans": 2, "exp": "ข้อ 6 กำหนดให้ทบทวนนโยบายอย่างน้อยปีละ 1 ครั้ง"}, {"q": "เอกสารเกี่ยวกับระบบการจัดการด้านความปลอดภัยต้องเก็บไว้ในสถานประกอบกิจการอย่างน้อยกี่ปี?", "choices": ["1 ปี", "2 ปี", "3 ปี", "5 ปี"], "ans": 1, "exp": "ข้อ 8 กำหนดให้เอกสารระบบการจัดการด้านความปลอดภัยเป็นปัจจุบัน และเก็บไว้ไม่น้อยกว่า 2 ปีนับแต่วันจัดทำ"}, {"q": "แผนงานด้านความปลอดภัยฯ ตามข้อ 9 อย่างน้อยควรกำหนดองค์ประกอบใดให้ชัดเจน?", "choices": ["ผู้รับผิดชอบ งบประมาณ ระยะเวลา และเกณฑ์ประเมินผล", "เฉพาะงบประมาณและผู้อนุมัติ", "เฉพาะระยะเวลาและจำนวนพนักงาน", "เฉพาะผู้รับผิดชอบและสถานที่"], "ans": 0, "exp": "ข้อ 9 ระบุว่าการวางแผนอย่างน้อยต้องกำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลาดำเนินการ และเกณฑ์การประเมินผล"}, {"q": "ในการประเมินผลและทบทวนระบบการจัดการด้านความปลอดภัย ข้อใดเป็นสิ่งที่ต้องดำเนินการ?", "choices": ["ตรวจติดตามและวัดผลการปฏิบัติงานของระบบ", "ยกเลิกการสอบสวนอุบัติการณ์", "ประเมินเฉพาะเมื่อเกิดอุบัติเหตุร้ายแรง", "ทบทวนระบบเฉพาะเมื่อมีคำสั่งจากภายนอก"], "ans": 0, "exp": "ข้อ 10 กำหนดให้มีการตรวจติดตามและการวัดผลการปฏิบัติงานของระบบ รวมทั้งการสอบสวนและทบทวนระบบ"}, {"q": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยต้องดำเนินการอย่างน้อยบ่อยเพียงใด?", "choices": ["เดือนละ 1 ครั้ง", "ทุก 6 เดือน", "ปีละ 1 ครั้ง", "ทุก 3 ปี"], "ans": 2, "exp": "ข้อ 10 กำหนดให้นายจ้างจัดให้มีการประเมินผลและทบทวนระบบอย่างน้อยปีละ 1 ครั้ง"}, {"q": "ข้อ 12 กำหนดให้นายจ้างดำเนินการข้อใดเพื่อให้ระบบการจัดการด้านความปลอดภัยมีประสิทธิภาพ?", "choices": ["จำกัดการมีส่วนร่วมเฉพาะผู้บริหาร", "เปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในระบบ", "ห้ามลูกจ้างเข้าถึงข้อมูลระบบทั้งหมด", "ไม่มีช่องทางรับข้อเสนอแนะหรือข้อร้องเรียน"], "ans": 1, "exp": "ข้อ 12 กำหนดให้นายจ้างเปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วม และจัดช่องทางรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียน"}, {"q": "หากสถานประกอบกิจการมีระบบการจัดการด้านความปลอดภัยตามมาตรฐานที่กฎหมายยอมรับ เช่น ISO, ILO, BSI หรือ OSHA ตามเงื่อนไขของข้อ 13 จะถือว่าอย่างไร?", "choices": ["ยังต้องจัดทำระบบใหม่ทั้งหมดเสมอ", "ถือว่าได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงแล้ว", "ใช้ได้เฉพาะกิจการที่มีพนักงานต่ำกว่า 50 คน", "ใช้แทนได้เฉพาะมาตรฐาน ISO เท่านั้น"], "ans": 1, "exp": "ข้อ 13 ระบุว่าหากมีระบบตามมาตรฐานที่กฎหมายยอมรับหรือมาตรฐานเทียบเท่าที่อธิบดีประกาศกำหนด ให้ถือว่าได้จัดให้มีระบบตามกฎกระทรวงนี้แล้ว"}];
+const QUIZ_SECONDS = 10*60;
+let remaining = QUIZ_SECONDS;
+let finished = false;
+let timerId;
+
+function renderQuiz(){
+  const box=document.getElementById('quiz');
+  box.innerHTML='';
+  QUESTIONS.forEach((q,i)=>{
+    const card=document.createElement('section');
+    card.className='card';
+    card.dataset.q=i;
+    card.innerHTML=`
+      <div class="qno">ข้อ ${i+1} จาก ${QUESTIONS.length}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="options">
+        ${q.choices.map((c,j)=>`
+          <label class="opt">
+            <input type="radio" name="q${i}" value="${j}">
+            <span><b>${String.fromCharCode(65+j)}.</b> ${c}</span>
+          </label>`).join('')}
+      </div>
+      <div class="answer-box" id="answer-${i}"></div>`;
+    box.appendChild(card);
+  });
+  document.querySelectorAll('.opt input').forEach(r=>r.addEventListener('change',e=>{
+    const group=document.querySelectorAll(`input[name="${e.target.name}"]`);
+    group.forEach(x=>x.closest('.opt').classList.remove('selected'));
+    e.target.closest('.opt').classList.add('selected');
+    updateProgress();
+  }));
+}
+
+function updateProgress(){
+  let n=0;
+  QUESTIONS.forEach((_,i)=>{ if(document.querySelector(`input[name="q${i}"]:checked`)) n++; });
+  document.getElementById('answered').textContent=`ตอบแล้ว ${n}/${QUESTIONS.length}`;
+  document.getElementById('progress').style.width=(n/QUESTIONS.length*100)+'%';
+}
+
+function tick(){
+  if(finished) return;
+  remaining--;
+  const m=Math.floor(remaining/60), s=remaining%60;
+  const t=document.getElementById('timer');
+  t.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(remaining<=60) t.classList.add('danger');
+  if(remaining<=0){
+    clearInterval(timerId);
+    submitQuiz(true);
+  }
+}
+
+function submitQuiz(auto){
+  if(finished) return;
+  let answered=0;
+  QUESTIONS.forEach((_,i)=>{if(document.querySelector(`input[name="q${i}"]:checked`))answered++;});
+  if(!auto && answered<QUESTIONS.length){
+    if(!confirm(`คุณตอบแล้ว ${answered}/${QUESTIONS.length} ข้อ ต้องการส่งคำตอบตอนนี้หรือไม่?`)) return;
+  }
+  finished=true;
+  clearInterval(timerId);
+  let score=0;
+  QUESTIONS.forEach((q,i)=>{
+    const radios=[...document.querySelectorAll(`input[name="q${i}"]`)];
+    const checked=radios.find(r=>r.checked);
+    radios.forEach((r,j)=>{
+      r.disabled=true;
+      const label=r.closest('.opt');
+      label.classList.remove('selected');
+      if(j===q.ans) label.classList.add('correct');
+      if(checked && r===checked && j!==q.ans) label.classList.add('wrong');
+    });
+    if(checked && Number(checked.value)===q.ans) score++;
+    const ans=document.getElementById(`answer-${i}`);
+    ans.innerHTML=`<b>คำตอบที่ถูกต้อง: ${String.fromCharCode(65+q.ans)}. ${q.choices[q.ans]}</b><br>${q.exp}`;
+    ans.classList.add('show');
+  });
+  const result=document.getElementById('result');
+  result.classList.add('show');
+  document.getElementById('score').textContent=`${score}/${QUESTIONS.length}`;
+  let txt = score>=8 ? 'ผลดีมาก พร้อมเข้าสู่บทเรียน' : score>=6 ? 'พื้นฐานดี ควรทบทวนบางประเด็น' : 'ควรทบทวนเนื้อหาก่อนเรียน';
+  document.getElementById('badge').textContent=(auto?'หมดเวลา • ':'')+txt;
+  result.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetQuiz(){
+  if(!confirm('เริ่มแบบทดสอบใหม่และล้างคำตอบทั้งหมดหรือไม่?')) return;
+  finished=false; remaining=QUIZ_SECONDS;
+  clearInterval(timerId);
+  document.getElementById('timer').classList.remove('danger');
+  document.getElementById('timer').textContent='10:00';
+  document.getElementById('result').classList.remove('show');
+  renderQuiz(); updateProgress();
+  timerId=setInterval(tick,1000);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+renderQuiz();
+updateProgress();
+timerId=setInterval(tick,1000);
+</script>
+</body>
+</html>
