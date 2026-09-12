@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pre-test | ระบบการจัดการด้านความปลอดภัย พ.ศ. 2565</title>
+<style>
+:root {
+  --bg:#f4f7fb; --card:#fff; --ink:#182230; --muted:#667085; --primary:#155eef;
+  --primary2:#0b4bb3; --nav:#0e2745; --ok:#0c9b6c; --bad:#d92d20; --line:#dfe5ee;
+  --warning:#f79009; --shadow:0 16px 38px rgba(15,39,69,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#edf4fb 0,#f8fafc 420px);font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;color:var(--ink);line-height:1.58}
+body.locked{overflow:hidden}
+.topbar{position:sticky;top:0;z-index:80;background:rgba(14,39,69,.96);backdrop-filter:blur(12px);color:#fff;box-shadow:0 5px 22px rgba(0,0,0,.15)}
+.top-inner{max-width:1120px;margin:auto;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#2e90fa,#155eef);display:grid;place-items:center;font-weight:900;box-shadow:0 7px 18px rgba(21,94,239,.35)}
+.brand b{display:block} .brand small{opacity:.75}
+.timer-panel{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);padding:7px 12px;border-radius:13px}
+.timer-panel .label{font-size:12px;opacity:.75}
+#timer{font-size:21px;font-weight:900;letter-spacing:.5px;min-width:64px;text-align:center}
+#timer.danger{color:#ffd5d2;animation:pulse .85s infinite alternate}
+@keyframes pulse{to{transform:scale(1.07)}}
+
+main{max-width:1000px;margin:22px auto;padding:0 16px 90px}
+.hero{background:linear-gradient(135deg,#fff,#f6faff);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#e1edff;right:-90px;top:-100px}
+.hero>*{position:relative;z-index:1}
+.kicker{display:inline-flex;align-items:center;gap:7px;color:#0b4bb3;background:#e9f2ff;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+.hero h1{font-size:clamp(24px,4vw,34px);line-height:1.3;margin:10px 0 7px} .hero p{color:var(--muted);margin:0}
+.progress-shell{margin-top:18px}
+.progress-top{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:13px;margin-bottom:7px}
+.progress-track{height:11px;background:#e8edf4;border-radius:999px;overflow:hidden}
+#progress{height:100%;width:0;background:linear-gradient(90deg,#155eef,#56a6ff);transition:.25s}
+.notice{margin-top:13px;background:#fff9e8;border:1px solid #f4df9b;color:#72500d;padding:10px 12px;border-radius:11px;font-size:13px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:17px;margin:15px 0;box-shadow:0 7px 19px rgba(16,36,68,.06);overflow:hidden;scroll-margin-top:88px}
+.card-head{padding:16px 17px 8px;display:flex;justify-content:space-between;gap:10px}
+.qno{font-size:12px;font-weight:900;color:var(--primary);background:#edf4ff;border-radius:999px;padding:4px 9px;height:max-content}
+.qstatus{font-size:12px;color:var(--muted)}
+.qtext{font-size:17px;font-weight:800;padding:0 17px 12px}
+.options{padding:0 17px}
+.opt{display:flex;gap:11px;align-items:flex-start;border:1px solid #dbe3ee;border-radius:13px;padding:11px 12px;margin:8px 0;cursor:pointer;transition:.16s;background:#fff}
+.opt:hover{background:#f8fbff;border-color:#9ec4f6;transform:translateY(-1px)}
+.opt input{margin-top:4px;accent-color:var(--primary)}
+.opt.selected{background:#eef5ff;border-color:#5b9df2;box-shadow:0 0 0 2px rgba(21,94,239,.06)}
+.opt.correct{background:#ecfdf3;border-color:#5fc5a0}
+.opt.wrong{background:#fff0ef;border-color:#ef8f87}
+.option-letter{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:8px;background:#eef2f7;font-weight:900;margin-right:4px}
+.card-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 17px 15px}
+.check-btn{border:1px solid #cfd9e7;background:#fff;color:#344054;border-radius:10px;padding:8px 12px;font:inherit;font-weight:700;cursor:pointer}
+.check-btn:hover{background:#f6f8fb}
+.check-btn:disabled{opacity:.45;cursor:not-allowed}
+.feedback{display:none;margin:0 17px 16px;padding:11px 12px;border-radius:11px;font-size:14px}
+.feedback.show{display:block}
+.feedback.good{background:#ecfdf3;border-left:4px solid var(--ok);color:#086348}
+.feedback.bad{background:#fff2f1;border-left:4px solid var(--bad);color:#922018}
+.feedback.info{background:#f1f6ff;border-left:4px solid var(--primary);color:#174ea6}
+
+.floating-nav{position:fixed;right:18px;bottom:88px;z-index:50;display:flex;flex-direction:column;gap:8px}
+.fab{width:45px;height:45px;border-radius:14px;border:1px solid #d5dfeb;background:#fff;box-shadow:0 8px 22px rgba(15,39,69,.14);cursor:pointer;font-size:19px}
+.bottom-actions{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(244,247,251,.94);backdrop-filter:blur(12px);border-top:1px solid #dde4ed}
+.bottom-inner{max-width:1000px;margin:auto;padding:11px 16px;display:flex;justify-content:center;gap:10px}
+button.primary,button.secondary{border:0;border-radius:12px;padding:11px 17px;font:inherit;font-weight:800;cursor:pointer}
+button.primary{background:linear-gradient(135deg,#155eef,#0b4bb3);color:#fff;box-shadow:0 8px 18px rgba(21,94,239,.22)}
+button.secondary{background:#fff;color:#344054;border:1px solid var(--line)}
+
+.result{display:none;background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;margin:18px 0;box-shadow:var(--shadow)}
+.result.show{display:block}
+.result-grid{display:grid;grid-template-columns:180px 1fr;gap:20px;align-items:center}
+.score-ring{width:160px;height:160px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--primary) 0deg,#e8eef6 0deg);position:relative;margin:auto}
+.score-ring:before{content:"";position:absolute;inset:13px;background:#fff;border-radius:50%}
+.score-content{position:relative;text-align:center} .score-content b{font-size:35px;display:block;line-height:1} .score-content span{font-size:12px;color:var(--muted)}
+.result h2{margin:0 0 4px} .result p{margin:4px 0;color:var(--muted)}
+.summary-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{padding:7px 10px;border-radius:999px;font-size:13px;font-weight:800} .chip.ok{background:#ecfdf3;color:#08724e} .chip.bad{background:#fff0ef;color:#a4241c} .chip.time{background:#eef4ff;color:#174ea6}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,18,35,.72);backdrop-filter:blur(8px);z-index:200;display:grid;place-items:center;padding:18px;opacity:1;transition:.25s}
+.modal-backdrop.hidden{opacity:0;pointer-events:none}
+.modal{width:min(620px,100%);background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,.33);transform:translateY(0) scale(1);transition:.25s}
+.modal-backdrop.hidden .modal{transform:translateY(18px) scale(.97)}
+.modal-top{background:linear-gradient(135deg,#102a43,#155eef);color:white;padding:25px}
+.modal-icon{width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:28px;margin-bottom:13px}
+.modal-top h2{margin:0;font-size:25px} .modal-top p{opacity:.83;margin:5px 0 0}
+.modal-body{padding:21px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:17px}
+.rule{border:1px solid var(--line);background:#f8fafc;border-radius:13px;padding:11px}
+.rule b{display:block;font-size:14px} .rule small{color:var(--muted)}
+.student-box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+.student-box input{width:100%;border:1px solid #ced8e5;border-radius:11px;padding:10px 11px;font:inherit}
+.start-btn{width:100%;margin-top:15px;border:0;border-radius:13px;padding:13px;background:linear-gradient(135deg,#155eef,#0b4bb3);color:#fff;font:inherit;font-weight:900;cursor:pointer}
+.start-btn:hover{filter:brightness(1.05)}
+.modal-note{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
+
+@media(max-width:680px){
+ .brand small,.timer-panel .label{display:none}
+ .result-grid{grid-template-columns:1fr} .rules,.student-box{grid-template-columns:1fr}
+ .hero{padding:18px} .qtext{font-size:16px}
+ .floating-nav{right:10px;bottom:82px}
+}
+@media print{.topbar,.bottom-actions,.floating-nav,.modal-backdrop,.check-btn{display:none!important}body{background:white}.card,.hero,.result{box-shadow:none}}
+</style>
+</head>
+<body class="locked">
+
+<div id="startModal" class="modal-backdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-top">
+      <div class="modal-icon">✓</div>
+      <h2 id="modalTitle">แบบทดสอบก่อนเรียน</h2>
+      <p>ระบบการจัดการด้านความปลอดภัย พ.ศ. 2565</p>
+    </div>
+    <div class="modal-body">
+      <div class="rules">
+        <div class="rule"><b>10 ข้อ</b><small>เลือกคำตอบที่ดีที่สุดเพียงข้อเดียว</small></div>
+        <div class="rule"><b>10 นาที</b><small>เริ่มจับเวลาเมื่อกด “เริ่มทำแบบทดสอบ”</small></div>
+        <div class="rule"><b>ตรวจทีละข้อได้</b><small>กดตรวจคำตอบเพื่อดูผลทันที</small></div>
+        <div class="rule"><b>มีเฉลยท้ายแบบทดสอบ</b><small>แสดงคะแนน คำตอบ และคำอธิบาย</small></div>
+      </div>
+      <div class="student-box">
+        <input id="studentName" placeholder="ชื่อ-นามสกุล (ไม่บังคับ)">
+        <input id="studentId" placeholder="รหัส/เลขที่ (ไม่บังคับ)">
+      </div>
+      <button class="start-btn" onclick="startQuiz()">เริ่มทำแบบทดสอบและจับเวลา</button>
+      <div class="modal-note">เวลาไม่เริ่มจนกว่าจะกดปุ่มเริ่มทำแบบทดสอบ</div>
+    </div>
+  </div>
+</div>
+
+<header class="topbar">
+  <div class="top-inner">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div><b>Safety Management Pre-test</b><small>กฎกระทรวง พ.ศ. 2565</small></div>
+    </div>
+    <div class="timer-panel">
+      <span class="label">เวลาคงเหลือ</span>
+      <span id="timer">10:00</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <span class="kicker">PRE-TEST • 10 QUESTIONS</span>
+    <h1>แบบทดสอบก่อนเรียน: ระบบการจัดการด้านความปลอดภัย</h1>
+    <p>เลือกคำตอบให้ครบ สามารถตรวจคำตอบรายข้อได้ และส่งคำตอบเพื่อดูผลรวมพร้อมเฉลย</p>
+    <div class="progress-shell">
+      <div class="progress-top"><span id="answered">ตอบแล้ว 0/10 ข้อ</span><span id="studentDisplay">ยังไม่เริ่มทำแบบทดสอบ</span></div>
+      <div class="progress-track"><div id="progress"></div></div>
+    </div>
+    <div class="notice">เมื่อเริ่มทำแล้ว ตัวจับเวลาจะติดอยู่ด้านบนและเลื่อนตามหน้าจอขณะทำแบบทดสอบ</div>
+  </section>
+
+  <section id="result" class="result">
+    <div class="result-grid">
+      <div class="score-ring" id="scoreRing"><div class="score-content"><b id="scoreText">0/10</b><span>คะแนน</span></div></div>
+      <div>
+        <h2 id="resultTitle">ผลการทำแบบทดสอบ</h2>
+        <p id="resultMsg"></p>
+        <div class="summary-chips">
+          <span class="chip ok" id="correctChip">ถูก 0 ข้อ</span>
+          <span class="chip bad" id="wrongChip">ผิด 0 ข้อ</span>
+          <span class="chip time" id="timeChip">ใช้เวลา 00:00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="quiz"></div>
+</main>
+
+<div class="floating-nav">
+  <button class="fab" title="เลื่อนไปด้านบน" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <button class="fab" title="ไปข้อที่ยังไม่ได้ตอบ" onclick="goNextPending()">↓</button>
+</div>
+
+<div class="bottom-actions">
+  <div class="bottom-inner">
+    <button class="secondary" onclick="resetQuiz()">เริ่มใหม่</button>
+    <button class="primary" id="submitBtn" onclick="submitQuiz(false)" disabled>ส่งคำตอบและดูเฉลย</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"q": "ตามกฎกระทรวงกำหนดมาตรฐานเกี่ยวกับระบบการจัดการด้านความปลอดภัย พ.ศ. 2565 สถานประกอบกิจการที่อยู่ในบัญชีท้ายกฎกระทรวงและมีลูกจ้างตั้งแต่กี่คนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย?", "choices": ["20 คน", "30 คน", "50 คน", "100 คน"], "ans": 2, "exp": "ข้อ 4 กำหนดว่าสถานประกอบกิจการตามบัญชีท้ายกฎกระทรวงที่มีลูกจ้างตั้งแต่ 50 คนขึ้นไป ต้องจัดให้มีระบบการจัดการด้านความปลอดภัย"}, {"q": "เมื่อนายจ้างมีลูกจ้างครบตามจำนวนที่กฎหมายกำหนด ต้องจัดให้มีระบบการจัดการด้านความปลอดภัยภายในกี่วัน?", "choices": ["30 วัน", "45 วัน", "60 วัน", "90 วัน"], "ans": 2, "exp": "ข้อ 4 กำหนดให้จัดระบบการจัดการด้านความปลอดภัยภายใน 60 วันนับแต่วันที่มีลูกจ้างครบจำนวน"}, {"q": "ข้อใดไม่ใช่องค์ประกอบขั้นต่ำของระบบการจัดการด้านความปลอดภัยตามข้อ 5?", "choices": ["นโยบายด้านความปลอดภัยฯ", "การจัดการองค์กรด้านความปลอดภัยฯ", "แผนงานด้านความปลอดภัยฯ และการนำไปปฏิบัติ", "การกำหนดโบนัสประจำปีของลูกจ้าง"], "ans": 3, "exp": "องค์ประกอบตามข้อ 5 มีนโยบาย การจัดการองค์กร แผนงานและการนำไปปฏิบัติ การประเมิน/ทบทวน และการปรับปรุงพัฒนา ไม่ได้กำหนดเรื่องโบนัสประจำปี"}, {"q": "นโยบายด้านความปลอดภัย อาชีวอนามัย และสภาพแวดล้อมในการทำงาน ต้องได้รับการทบทวนอย่างน้อยบ่อยเพียงใด?", "choices": ["ทุก 3 เดือน", "ทุก 6 เดือน", "ปีละ 1 ครั้ง", "ทุก 2 ปี"], "ans": 2, "exp": "ข้อ 6 กำหนดให้ทบทวนนโยบายอย่างน้อยปีละ 1 ครั้ง"}, {"q": "เอกสารเกี่ยวกับระบบการจัดการด้านความปลอดภัยต้องเก็บไว้ในสถานประกอบกิจการอย่างน้อยกี่ปี?", "choices": ["1 ปี", "2 ปี", "3 ปี", "5 ปี"], "ans": 1, "exp": "ข้อ 8 กำหนดให้เอกสารระบบการจัดการด้านความปลอดภัยเป็นปัจจุบัน และเก็บไว้ไม่น้อยกว่า 2 ปีนับแต่วันจัดทำ"}, {"q": "แผนงานด้านความปลอดภัยฯ ตามข้อ 9 อย่างน้อยควรกำหนดองค์ประกอบใดให้ชัดเจน?", "choices": ["ผู้รับผิดชอบ งบประมาณ ระยะเวลา และเกณฑ์ประเมินผล", "เฉพาะงบประมาณและผู้อนุมัติ", "เฉพาะระยะเวลาและจำนวนพนักงาน", "เฉพาะผู้รับผิดชอบและสถานที่"], "ans": 0, "exp": "ข้อ 9 ระบุว่าการวางแผนอย่างน้อยต้องกำหนดผู้รับผิดชอบ งบประมาณ ระยะเวลาดำเนินการ และเกณฑ์การประเมินผล"}, {"q": "ในการประเมินผลและทบทวนระบบการจัดการด้านความปลอดภัย ข้อใดเป็นสิ่งที่ต้องดำเนินการ?", "choices": ["ตรวจติดตามและวัดผลการปฏิบัติงานของระบบ", "ยกเลิกการสอบสวนอุบัติการณ์", "ประเมินเฉพาะเมื่อเกิดอุบัติเหตุร้ายแรง", "ทบทวนระบบเฉพาะเมื่อมีคำสั่งจากภายนอก"], "ans": 0, "exp": "ข้อ 10 กำหนดให้มีการตรวจติดตามและการวัดผลการปฏิบัติงานของระบบ รวมทั้งการสอบสวนและทบทวนระบบ"}, {"q": "การประเมินผลและการทบทวนระบบการจัดการด้านความปลอดภัยต้องดำเนินการอย่างน้อยบ่อยเพียงใด?", "choices": ["เดือนละ 1 ครั้ง", "ทุก 6 เดือน", "ปีละ 1 ครั้ง", "ทุก 3 ปี"], "ans": 2, "exp": "ข้อ 10 กำหนดให้นายจ้างจัดให้มีการประเมินผลและทบทวนระบบอย่างน้อยปีละ 1 ครั้ง"}, {"q": "ข้อ 12 กำหนดให้นายจ้างดำเนินการข้อใดเพื่อให้ระบบการจัดการด้านความปลอดภัยมีประสิทธิภาพ?", "choices": ["จำกัดการมีส่วนร่วมเฉพาะผู้บริหาร", "เปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วมในระบบ", "ห้ามลูกจ้างเข้าถึงข้อมูลระบบทั้งหมด", "ไม่มีช่องทางรับข้อเสนอแนะหรือข้อร้องเรียน"], "ans": 1, "exp": "ข้อ 12 กำหนดให้นายจ้างเปิดโอกาสให้ลูกจ้างทุกคนมีส่วนร่วม และจัดช่องทางรับความคิดเห็น ข้อเสนอแนะ หรือข้อร้องเรียน"}, {"q": "หากสถานประกอบกิจการมีระบบการจัดการด้านความปลอดภัยตามมาตรฐานที่กฎหมายยอมรับ เช่น ISO, ILO, BSI หรือ OSHA ตามเงื่อนไขของข้อ 13 จะถือว่าอย่างไร?", "choices": ["ยังต้องจัดทำระบบใหม่ทั้งหมดเสมอ", "ถือว่าได้จัดให้มีระบบการจัดการด้านความปลอดภัยตามกฎกระทรวงแล้ว", "ใช้ได้เฉพาะกิจการที่มีพนักงานต่ำกว่า 50 คน", "ใช้แทนได้เฉพาะมาตรฐาน ISO เท่านั้น"], "ans": 1, "exp": "ข้อ 13 ระบุว่าหากมีระบบตามมาตรฐานที่กฎหมายยอมรับหรือมาตรฐานเทียบเท่าที่อธิบดีประกาศกำหนด ให้ถือว่าได้จัดให้มีระบบตามกฎกระทรวงนี้แล้ว"}];
+const TOTAL_SECONDS = 600;
+let remaining = TOTAL_SECONDS;
+let started = false;
+let finished = false;
+let timerId = null;
+let startedAt = null;
+let checkedQuestions = new Set();
+
+function renderQuiz(){
+  const box=document.getElementById('quiz');
+  box.innerHTML='';
+  QUESTIONS.forEach((q,i)=>{
+    const card=document.createElement('section');
+    card.className='card';
+    card.id=`question-${i+1}`;
+    card.dataset.q=i;
+    card.innerHTML=`
+      <div class="card-head">
+        <div class="qno">ข้อ ${i+1} / ${QUESTIONS.length}</div>
+        <div class="qstatus" id="qstatus-${i}">ยังไม่ได้ตอบ</div>
+      </div>
+      <div class="qtext">${q.q}</div>
+      <div class="options">
+        ${q.choices.map((c,j)=>`
+          <label class="opt">
+            <input type="radio" name="q${i}" value="${j}" disabled>
+            <span><span class="option-letter">${String.fromCharCode(65+j)}</span> ${c}</span>
+          </label>`).join('')}
+      </div>
+      <div class="card-actions">
+        <span class="qstatus" id="checked-${i}"></span>
+        <button class="check-btn" id="checkbtn-${i}" onclick="checkOne(${i})" disabled>ตรวจคำตอบข้อนี้</button>
+      </div>
+      <div class="feedback" id="feedback-${i}"></div>
+    `;
+    box.appendChild(card);
+  });
+
+  document.querySelectorAll('.opt input').forEach(r=>r.addEventListener('change',e=>{
+    if(finished) return;
+    const group=document.querySelectorAll(`input[name="${e.target.name}"]`);
+    group.forEach(x=>x.closest('.opt').classList.remove('selected'));
+    e.target.closest('.opt').classList.add('selected');
+    const i=Number(e.target.name.substring(1));
+    document.getElementById(`qstatus-${i}`).textContent='ตอบแล้ว';
+    document.getElementById(`checkbtn-${i}`).disabled=false;
+    updateProgress();
+  }));
+}
+
+function startQuiz(){
+  if(started) return;
+  started=true; finished=false; remaining=TOTAL_SECONDS; startedAt=Date.now();
+  document.body.classList.remove('locked');
+  document.getElementById('startModal').classList.add('hidden');
+  document.querySelectorAll('.opt input').forEach(x=>x.disabled=false);
+  document.getElementById('submitBtn').disabled=false;
+
+  const nm=document.getElementById('studentName').value.trim();
+  const id=document.getElementById('studentId').value.trim();
+  document.getElementById('studentDisplay').textContent = nm ? `ผู้ทำ: ${nm}${id?' • '+id:''}` : 'กำลังทำแบบทดสอบ';
+
+  clearInterval(timerId);
+  timerId=setInterval(tick,1000);
+  setTimeout(()=>document.getElementById('question-1').scrollIntoView({behavior:'smooth',block:'start'}),300);
+}
+
+function tick(){
+  if(!started || finished) return;
+  remaining=Math.max(0,remaining-1);
+  drawTimer();
+  if(remaining===0) submitQuiz(true);
+}
+
+function drawTimer(){
+  const m=Math.floor(remaining/60), s=remaining%60;
+  const el=document.getElementById('timer');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.classList.toggle('danger',remaining<=60);
+}
+
+function updateProgress(){
+  let n=0;
+  QUESTIONS.forEach((_,i)=>{if(document.querySelector(`input[name="q${i}"]:checked`)) n++;});
+  document.getElementById('answered').textContent=`ตอบแล้ว ${n}/${QUESTIONS.length} ข้อ`;
+  document.getElementById('progress').style.width=(n/QUESTIONS.length*100)+'%';
+}
+
+function checkOne(i){
+  if(!started || finished) return;
+  const q=QUESTIONS[i];
+  const checked=document.querySelector(`input[name="q${i}"]:checked`);
+  const fb=document.getElementById(`feedback-${i}`);
+  if(!checked){
+    fb.className='feedback show info';
+    fb.innerHTML='กรุณาเลือกคำตอบก่อนตรวจ';
+    return;
+  }
+  const picked=Number(checked.value);
+  checkedQuestions.add(i);
+
+  const labels=[...document.querySelectorAll(`input[name="q${i}"]`)].map(r=>r.closest('.opt'));
+  labels.forEach(x=>x.classList.remove('correct','wrong'));
+  labels[q.ans].classList.add('correct');
+
+  if(picked===q.ans){
+    fb.className='feedback show good';
+    fb.innerHTML=`<b>ตอบถูก</b><br>${q.exp}`;
+    document.getElementById(`checked-${i}`).textContent='ตรวจแล้ว ✓';
+  } else {
+    labels[picked].classList.add('wrong');
+    fb.className='feedback show bad';
+    fb.innerHTML=`<b>ยังไม่ถูก</b><br>คำตอบที่ถูกคือ <b>${String.fromCharCode(65+q.ans)}. ${q.choices[q.ans]}</b><br>${q.exp}`;
+    document.getElementById(`checked-${i}`).textContent='ตรวจแล้ว';
+  }
+}
+
+function submitQuiz(auto){
+  if(!started || finished) return;
+  let answered=0;
+  QUESTIONS.forEach((_,i)=>{if(document.querySelector(`input[name="q${i}"]:checked`))answered++;});
+  if(!auto && answered<QUESTIONS.length){
+    if(!confirm(`ตอบแล้ว ${answered}/${QUESTIONS.length} ข้อ ต้องการส่งคำตอบตอนนี้หรือไม่?`)) return;
+  }
+
+  finished=true;
+  clearInterval(timerId);
+  let score=0;
+  QUESTIONS.forEach((q,i)=>{
+    const radios=[...document.querySelectorAll(`input[name="q${i}"]`)];
+    const checked=radios.find(r=>r.checked);
+    radios.forEach((r,j)=>{
+      r.disabled=true;
+      const label=r.closest('.opt');
+      label.classList.remove('selected');
+      if(j===q.ans) label.classList.add('correct');
+      if(checked && r===checked && j!==q.ans) label.classList.add('wrong');
+    });
+    if(checked && Number(checked.value)===q.ans) score++;
+
+    const fb=document.getElementById(`feedback-${i}`);
+    fb.className='feedback show info';
+    fb.innerHTML=`<b>เฉลย: ${String.fromCharCode(65+q.ans)}. ${q.choices[q.ans]}</b><br>${q.exp}`;
+    document.getElementById(`checkbtn-${i}`).disabled=true;
+    document.getElementById(`qstatus-${i}`).textContent=checked?'ส่งคำตอบแล้ว':'ไม่ได้ตอบ';
+  });
+
+  const used=TOTAL_SECONDS-remaining;
+  const um=Math.floor(used/60), us=used%60;
+  const pct=Math.round(score/QUESTIONS.length*100);
+  const deg=pct*3.6;
+  document.getElementById('scoreText').textContent=`${score}/${QUESTIONS.length}`;
+  document.getElementById('scoreRing').style.background=`conic-gradient(#155eef ${deg}deg,#e8eef6 ${deg}deg)`;
+  document.getElementById('correctChip').textContent=`ถูก ${score} ข้อ`;
+  document.getElementById('wrongChip').textContent=`ผิด/ไม่ตอบ ${QUESTIONS.length-score} ข้อ`;
+  document.getElementById('timeChip').textContent=`ใช้เวลา ${String(um).padStart(2,'0')}:${String(us).padStart(2,'0')}`;
+  document.getElementById('resultTitle').textContent=auto?'หมดเวลา — ระบบส่งคำตอบอัตโนมัติ':'ส่งคำตอบเรียบร้อย';
+  document.getElementById('resultMsg').textContent=
+      score>=8?'ผลการประเมินอยู่ในระดับดีมาก สามารถเข้าสู่บทเรียนต่อได้':
+      score>=6?'มีพื้นฐานค่อนข้างดี ควรทบทวนข้อที่ตอบผิดเพิ่มเติม':
+      'ควรทบทวนเนื้อหาหลักก่อนเข้าสู่บทเรียน';
+  document.getElementById('result').classList.add('show');
+  document.getElementById('submitBtn').disabled=true;
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function goNextPending(){
+  if(!started) return;
+  for(let i=0;i<QUESTIONS.length;i++){
+    if(!document.querySelector(`input[name="q${i}"]:checked`)){
+      document.getElementById(`question-${i+1}`).scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+  }
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function resetQuiz(){
+  if(started && !finished && !confirm('ต้องการเริ่มใหม่หรือไม่? คำตอบปัจจุบันจะถูกล้างทั้งหมด')) return;
+  clearInterval(timerId);
+  started=false; finished=false; remaining=TOTAL_SECONDS; startedAt=null; checkedQuestions.clear();
+  drawTimer();
+  document.getElementById('timer').classList.remove('danger');
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('submitBtn').disabled=true;
+  document.getElementById('answered').textContent='ตอบแล้ว 0/10 ข้อ';
+  document.getElementById('progress').style.width='0%';
+  document.getElementById('studentDisplay').textContent='ยังไม่เริ่มทำแบบทดสอบ';
+  renderQuiz();
+  document.getElementById('startModal').classList.remove('hidden');
+  document.body.classList.add('locked');
+}
+
+renderQuiz();
+drawTimer();
+</script>
+</body>
+</html>
