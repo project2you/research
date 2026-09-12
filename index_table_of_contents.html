@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="สารบัญงานวิจัย Multi-Natural-Dye AI-Driven Inverse Design and Closed-Loop Optimization for Sustainable Textile Dyeing">
+<title>สารบัญงานวิจัย — Natural Dye AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f4f7f8; --surface:#fff; --text:#1f2933; --muted:#667783;
+  --line:#dbe4e8; --accent:#0d6f6a; --accent2:#095b57; --soft:#e7f4f2;
+  --navy:#18324a; --shadow:0 14px 38px rgba(24,50,74,.08);
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; min-height:100vh; background:
+  radial-gradient(circle at top left, rgba(13,111,106,.06), transparent 30%),
+  linear-gradient(180deg,#f7f9fa 0%,#f2f6f7 100%);
+  color:var(--text); font-family:"Sarabun",sans-serif;
+}
+.wrapper { width:min(1180px, calc(100% - 32px)); margin:0 auto; padding:48px 0 70px; }
+.hero {
+  background:linear-gradient(135deg,#17334a 0%,#102839 68%,#0d6f6a 150%);
+  color:white; border-radius:24px; padding:42px clamp(24px,5vw,60px);
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.hero::after {
+  content:""; position:absolute; width:360px; height:360px; border-radius:50%;
+  right:-110px; top:-150px; background:rgba(143,214,208,.08);
+}
+.badge {
+  display:inline-flex; align-items:center; gap:8px; padding:6px 11px;
+  border-radius:999px; border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08); font-size:12px; font-weight:700;
+  margin-bottom:14px;
+}
+.hero h1 { margin:0; font-size:clamp(30px,5vw,50px); line-height:1.18; letter-spacing:-.02em; }
+.th-title { margin:18px 0 0; font-size:clamp(18px,2.4vw,24px); line-height:1.55; font-weight:600; max-width:980px; }
+.en-title { margin:9px 0 0; color:rgba(255,255,255,.72); font-size:15px; line-height:1.55; max-width:920px; }
+.meta {
+  margin-top:28px; display:flex; flex-wrap:wrap; gap:10px;
+}
+.meta span {
+  padding:8px 11px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.10);
+  border-radius:9px; font-size:12.5px; color:rgba(255,255,255,.84);
+}
+.section-head { margin:38px 0 15px; display:flex; justify-content:space-between; gap:15px; align-items:end; }
+.section-head h2 { margin:0; color:var(--navy); font-size:25px; }
+.section-head p { margin:0; color:var(--muted); font-size:14px; }
+.chapters { display:grid; gap:14px; }
+.chapter-card {
+  text-decoration:none; color:inherit; display:grid; grid-template-columns:105px minmax(0,1fr) 48px;
+  align-items:center; gap:18px; background:var(--surface); border:1px solid #dfe7ea;
+  border-radius:17px; padding:20px 22px; box-shadow:0 6px 20px rgba(24,50,74,.035);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.chapter-card:hover {
+  transform:translateY(-2px); border-color:#bcdad7; box-shadow:0 12px 30px rgba(24,50,74,.08);
+}
+.chapter-no {
+  min-height:70px; display:flex; align-items:center; justify-content:center;
+  color:var(--accent2); background:var(--soft); border:1px solid #cde8e5;
+  border-radius:13px; font-size:20px; font-weight:700;
+}
+.chapter-title { font-size:20px; color:var(--navy); font-weight:700; line-height:1.35; }
+.chapter-desc { margin-top:6px; color:var(--muted); font-size:14.5px; line-height:1.6; }
+.status {
+  display:inline-block; margin-top:10px; padding:4px 8px; border-radius:6px;
+  background:#edf7f4; color:#226860; font-size:11.5px; font-weight:600;
+}
+.status.warn { background:#fff6dc; color:#755c11; }
+.arrow { font-size:29px; color:#65a7a2; text-align:center; }
+.info-grid { margin-top:25px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.info-box { background:white; border:1px solid var(--line); border-radius:15px; padding:19px 21px; }
+.info-box h3 { margin:0 0 7px; color:var(--navy); font-size:16px; }
+.info-box p { margin:0; color:var(--muted); font-size:13.5px; line-height:1.65; }
+.footer { text-align:center; color:#85929b; font-size:12px; padding-top:34px; }
+@media(max-width:760px) {
+  .wrapper { width:min(100% - 20px,1180px); padding-top:18px; }
+  .hero { padding:29px 22px; border-radius:18px; }
+  .chapter-card { grid-template-columns:75px minmax(0,1fr); padding:16px; }
+  .arrow { display:none; }
+  .chapter-no { min-height:58px; font-size:16px; }
+  .chapter-title { font-size:18px; }
+  .info-grid { grid-template-columns:1fr; }
+  .section-head { align-items:flex-start; flex-direction:column; gap:4px; }
+}
+@media print {
+  body { background:white; }
+  .wrapper { width:100%; padding:0; }
+  .hero,.chapter-card,.info-box { box-shadow:none; }
+  .chapter-card { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="hero">
+    <div class="badge">Research Document · Chapters 1–5</div>
+    <h1>สารบัญงานวิจัย</h1>
+    <p class="th-title">การออกแบบสูตรย้อนกลับด้วยปัญญาประดิษฐ์และการเพิ่มประสิทธิภาพแบบวงปิดสำหรับการย้อมสิ่งทอด้วยสีธรรมชาติหลายชนิดอย่างยั่งยืน</p>
+    <p class="en-title">Multi-Natural-Dye AI-Driven Inverse Design and Closed-Loop Optimization for Sustainable Textile Dyeing</p>
+    <div class="meta">
+      <span>Natural Dye Systems: Sappanwood · Turmeric · Butterfly pea</span>
+      <span>Substrate: 100% Cotton</span>
+      <span>AI: Forward · Inverse · Uncertainty · Closed-loop</span>
+    </div>
+  </header>
+
+  <div class="section-head">
+    <div><h2>สารบัญหลัก</h2></div>
+    <p>เลือกบทเพื่อเปิดอ่านเอกสารฉบับ HTML</p>
+  </div>
+
+  <section class="chapters">
+    
+<a class="chapter-card" href="index_chapter1_latex_fixed.html" target="_self">
+  <div class="chapter-no">บทที่ 1</div>
+  <div class="chapter-body">
+    <div class="chapter-title">บทนำ</div>
+    <div class="chapter-desc">ความเป็นมา ปัญหาวิจัย คำถามวิจัย วัตถุประสงค์ สมมติฐาน ขอบเขต กรอบแนวคิด และ Contribution</div>
+    <div class='status'>พร้อมอ่าน</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+
+<a class="chapter-card" href="index_chapter2.html" target="_self">
+  <div class="chapter-no">บทที่ 2</div>
+  <div class="chapter-body">
+    <div class="chapter-title">เอกสารและงานวิจัยที่เกี่ยวข้อง</div>
+    <div class="chapter-desc">ทบทวนวรรณกรรม งานที่เกี่ยวข้อง ช่องว่างการวิจัย และการเปรียบเทียบกับงานเดิม</div>
+    <div class='status'>พร้อมอ่าน</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+
+<a class="chapter-card" href="index_chapter3_with_framework_figures.html" target="_self">
+  <div class="chapter-no">บทที่ 3</div>
+  <div class="chapter-body">
+    <div class="chapter-title">วิธีดำเนินการวิจัย</div>
+    <div class="chapter-desc">กรอบการวิจัย วัสดุ การทดลอง DOE แบบจำลอง AI, inverse design, uncertainty และ closed-loop</div>
+    <div class='status'>พร้อมอ่าน</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+
+<a class="chapter-card" href="index_chapter4_with_results_figures.html" target="_self">
+  <div class="chapter-no">บทที่ 4</div>
+  <div class="chapter-body">
+    <div class="chapter-title">ผลการวิจัย วิเคราะห์และอภิปรายผล</div>
+    <div class="chapter-desc">ผลจำลอง ตาราง กราฟ Figure 4.1–4.4 การวิเคราะห์และอภิปรายผลตามกรอบวิจัย</div>
+    <div class='status warn'>ข้อมูลจำลองสำหรับสาธิตรูปแบบผลการวิจัย</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+
+<a class="chapter-card" href="index_chapter5.html" target="_self">
+  <div class="chapter-no">บทที่ 5</div>
+  <div class="chapter-body">
+    <div class="chapter-title">สรุปผล ข้อจำกัด และงานในอนาคต</div>
+    <div class="chapter-desc">สรุปผล Contribution ข้อจำกัด ข้อเสนอแนะ การประยุกต์ใช้ และแนวทางวิจัยต่อยอด</div>
+    <div class='status'>พร้อมอ่าน</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
+
+  </section>
+
+  <section class="info-grid">
+    <div class="info-box">
+      <h3>การใช้งาน</h3>
+      <p>วางไฟล์สารบัญนี้ไว้โฟลเดอร์เดียวกับไฟล์ HTML ของบทที่ 1–5 แล้วลิงก์จะเปิดแต่ละบทได้โดยตรง เหมาะสำหรับ GitHub Pages หรือเปิดบนเครื่องแบบ local.</p>
+    </div>
+    <div class="info-box">
+      <h3>สถานะข้อมูล</h3>
+      <p>บทที่ 4 และข้อสรุปเชิงตัวเลขในบทที่ 5 ยังอิงข้อมูลจำลองเพื่อสาธิตรูปแบบการรายงานผล ต้องแทนด้วยผลการทดลองจริงก่อนใช้ตีพิมพ์หรือส่งวารสาร.</p>
+    </div>
+  </section>
+
+  <div class="footer">Multi-Natural-Dye AI-Driven Inverse Design Research Document</div>
+</div>
+</body>
+</html>
